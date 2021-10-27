@@ -6,6 +6,7 @@ class CustomUserModelSerializer(HyperlinkedModelSerializer):
    class Meta:
        model = CustomUser
        fields = [
+           'username',
            'firstname',
            'lastname',
            'email'
