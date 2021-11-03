@@ -6,7 +6,7 @@ from users.models import CustomUser
 
 class Project(models.Model):
     name = models.CharField('Название проекта', max_length=128)
-    url = models.URLField('Ссылка на репозиторий')
+    repo = models.URLField('Ссылка на репозиторий')
     users = models.ManyToManyField(CustomUser)
 
     def __str__(self):
