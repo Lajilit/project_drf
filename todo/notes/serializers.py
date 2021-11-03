@@ -1,9 +1,5 @@
-from rest_framework.relations import StringRelatedField
-from rest_framework.serializers import HyperlinkedModelSerializer, \
-    ModelSerializer
+from rest_framework.serializers import HyperlinkedModelSerializer
 
-from users.models import CustomUser
-from users.serializers import CustomUserModelSerializer
 from .models import Project, Note
 
 
