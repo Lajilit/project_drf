@@ -6,11 +6,11 @@ from users.models import CustomUser
 
 class Project(models.Model):
     name = models.CharField('Название проекта', max_length=128)
-    url = models.SlugField('Ссылка на репозиторий')
+    url = models.URLField('Ссылка на репозиторий')
     users = models.ManyToManyField(CustomUser)
 
     def __str__(self):
-        return f'{self.name} ({self.users})'
+        return self.name
 
 
 class Note(models.Model):
