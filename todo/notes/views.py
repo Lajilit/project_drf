@@ -12,3 +12,9 @@ class ProjectModelViewSet(ModelViewSet):
 class NoteModelViewSet(ModelViewSet):
     queryset = Note.objects.all()
     serializer_class = NoteModelSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        note = self.get_object()  # deleting note
+        note.closed = True
+        note.save()
+        return super(NoteModelViewSet, self).destroy(request, *args, **kwargs)
