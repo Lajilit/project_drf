@@ -1,6 +1,7 @@
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.viewsets import ModelViewSet
 
+from .filters import ProjectFilter, NoteDateFilter
 from .models import Project, Note
 from .serializers import ProjectModelSerializer, NoteModelSerializer
 
@@ -13,6 +14,7 @@ class ProjectModelViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectModelSerializer
     pagination_class = ProjectLimitOffsetPagination
+    filterset_class = ProjectFilter
 
 
 class NoteLimitOffsetPagination(LimitOffsetPagination):
@@ -23,6 +25,7 @@ class NoteModelViewSet(ModelViewSet):
     queryset = Note.objects.all()
     serializer_class = NoteModelSerializer
     pagination_class = NoteLimitOffsetPagination
+    filterset_class = NoteDateFilter
 
     def destroy(self, request, *args, **kwargs):
         note = self.get_object()  # deleting note
