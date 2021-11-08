@@ -1,6 +1,7 @@
 from django_filters import rest_framework as filters
 
 from notes.models import Project, Note
+from users.models import CustomUser
 
 
 class ProjectFilter(filters.FilterSet):
@@ -11,7 +12,11 @@ class ProjectFilter(filters.FilterSet):
         fields = ['name']
 
 
-class NoteDateFilter(filters.FilterSet):
+class NoteFilter(filters.FilterSet):
+    project = filters.ModelChoiceFilter(
+        queryset=Project.objects.all())
+    author = filters.ModelChoiceFilter(
+        queryset=CustomUser.objects.all())
     min_date = filters.DateTimeFilter(field_name='create_date',
                                       lookup_expr='gte',
                                       input_formats=[('%d.%m.%Y'),
