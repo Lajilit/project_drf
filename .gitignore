@@ -1,0 +1,4 @@
+/todo/frontend/node_modules/
+.idea/
+__pycache__
+/todo/db.sqlite3
