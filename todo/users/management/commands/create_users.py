@@ -14,7 +14,7 @@ class Command(BaseCommand):
         num = options['count']
         first = options['first']
 
-        for i in range(first, num + first):
+        for i in range(first, num + first + 1):
             new_user = CustomUser.objects.create_user(
                 f'test_{i}',
                 f'test_email_{i}@mail.ru',
