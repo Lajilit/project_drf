@@ -4,64 +4,34 @@ from notes.models import Project, Note
 
 
 class Command(BaseCommand):
+    """ Команда создает новые проекты и заметки в базе данных.
+    Первый аргумент - количество проектов, второй аргумент - начальный номер проекта"""
+
+    def add_arguments(self, parser):
+        parser.add_argument('projects', type=int, help="projects count")
+        parser.add_argument('first_p', type=int, help="first project number")
+        parser.add_argument('notes', type=int, help="project_notes count")
+        parser.add_argument('first_n', type=int, help="first note number")
+
     def handle(self, *args, **options):
-        projects = [
-            {
-                "repo": "https://github.com/Lajilit/project_drf",
-                "users": [1, 2, 4]
-            },
-            {
-                "repo": "https://github.com/Lajilit/project_drf",
-                "users": [2, 3, 4]
-            },
-            {
-                "repo": "https://github.com/Lajilit/project_drf",
-                "users": [5]
-            },
-            {
-                "repo": "https://github.com/Lajilit/project_drf",
-                "users": [2, 3]
-            },
-            {
-                "repo": "https://github.com/Lajilit/project_drf",
-                "users": [1, 3, 4]
-            },
-            {
-                "repo": "https://github.com/Lajilit/project_drf",
-                "users": [2, 3, 1]
-            },
-            {
-                "repo": "https://github.com/Lajilit/project_drf",
-                "users": [4]
-            },
-            {
-                "repo": "https://github.com/Lajilit/project_drf",
-                "users": [5, 3]
-            },
-            {
-                "repo": "https://github.com/Lajilit/project_drf",
-                "users": [1]
-            },
-            {
-                "repo": "https://github.com/Lajilit/project_drf",
-                "users": [1, 2, 3, 4, 5]
-            }
-        ]
-        project_id = 0
-        note_id = 0
-        for project in projects:
-            project_id += 1
+        projects = options['projects']
+        first_p = options['first_p']
+        notes = options['notes']
+        first_n = options['first_n']
+
+        for i in range(projects):
             new_project = Project.objects.create(
-                name=f"test project {project_id}",
-                repo=project['repo'],
+                name=f"test project {first_p}",
+                repo='https://github.com/Lajilit/project_drf',
             )
-            new_project.users.set(project['users'])
+            first_p += 1
+            new_project.users.set([1, 2, 3])
             new_project.save()
-            for i in range(5):
-                note_id += 1
+            for i in range(notes):
                 new_note = Note.objects.create(
-                    name=f'Test note {note_id}',
-                    text=f'Test note {note_id} text',
-                    author=new_project.users.first(),
+                    name=f'Test note {first_n}',
+                    text=f'Test note {first_n} text',
+                    user=new_project.users.first(),
                     project=new_project
                 )
+                first_n += 1

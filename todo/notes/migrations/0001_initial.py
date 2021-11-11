@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ('update_date', models.DateTimeField(auto_now=True, verbose_name='Заметка обновлена')),
                 ('text', models.TextField(verbose_name='Текст заметки')),
                 ('closed', models.BooleanField(default=False, verbose_name='Выполнено')),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
                 ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='notes.project')),
             ],
         ),

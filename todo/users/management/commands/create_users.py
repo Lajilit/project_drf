@@ -7,7 +7,7 @@ class Command(BaseCommand):
     Первый аргумент - количество пользователей, второй аргумент - начальный номер пользователя"""
 
     def add_arguments(self, parser):
-        parser.add_argument('count', type=int, help="users count", default=10)
+        parser.add_argument('count', type=int, help="users count")
         parser.add_argument('first', type=int, help="first user number")
 
     def handle(self, *args, **options):
