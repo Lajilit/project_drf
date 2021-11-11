@@ -11,7 +11,7 @@ class Command(BaseCommand):
         parser.add_argument('first', type=int, help="first user number")
 
     def handle(self, *args, **options):
-        num = options['count'] + 1
+        num = options['count']
         first = options['first']
 
         for i in range(first, num + first):
