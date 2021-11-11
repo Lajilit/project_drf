@@ -20,7 +20,7 @@ class Note(models.Model):
     create_date = models.DateTimeField('Заметка создана', auto_now_add=True)
     update_date = models.DateTimeField('Заметка обновлена', auto_now=True)
     text = models.TextField('Текст заметки')
-    closed = models.BooleanField('Выполнено', default=False)
+    is_active = models.BooleanField('Заметка активна', default=True)
 
     def __str__(self):
         return f'{self.project.name}: ({self.name})'

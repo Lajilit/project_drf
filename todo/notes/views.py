@@ -29,6 +29,6 @@ class NoteModelViewSet(ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         note = self.get_object()  # deleting note
-        note.closed = True
+        note.is_active = True
         note.save()
         return super(NoteModelViewSet, self).destroy(request, *args, **kwargs)
