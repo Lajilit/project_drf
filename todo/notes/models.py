@@ -9,6 +9,10 @@ class Project(models.Model):
     repo = models.URLField(verbose_name='Ссылка на репозиторий')
     users = models.ManyToManyField(CustomUser, verbose_name='Пользователи проекта')
 
+    class Meta:
+        verbose_name = 'проект'
+        verbose_name_plural = 'проекты'
+
     def __str__(self):
         return f'{self.name}'
 
@@ -21,6 +25,10 @@ class Note(models.Model):
     update_date = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
     text = models.TextField(verbose_name='Текст заметки')
     is_active = models.BooleanField(default=True, verbose_name='Статус активности')
+
+    class Meta:
+        verbose_name = 'заметка'
+        verbose_name_plural = 'заметки'
 
     def __str__(self):
         return f'{self.project.name}: ({self.name})'
