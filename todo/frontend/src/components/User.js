@@ -1,18 +1,18 @@
 import React from 'react'
 
 
-const UserItem = ({item}) => {
+const UserItem = ({user}) => {
     return (
         <tr>
-            <td>{item.username}</td>
-            <td>{item.firstName}</td>
-            <td>{item.lastName}</td>
-            <td>{item.email}</td>
+            <td>{user.username}</td>
+            <td>{user.firstName}</td>
+            <td>{user.lastName}</td>
+            <td>{user.email}</td>
         </tr>
     )
 }
 
-const UserList = ({users: items}) => {
+const UsersList = ({users}) => {
     return (
         <table>
             <thead>
@@ -24,10 +24,9 @@ const UserList = ({users: items}) => {
             </tr>
 
             </thead>
-            <tbody>{items.map((item) => <UserItem key={item.id} item={item}/>)}</tbody>
+            <tbody>{users.map((user) => <UserItem key={user.id} user={user}/>)}</tbody>
         </table>
     )
 }
 
-
-export default UserList
+export default UsersList
