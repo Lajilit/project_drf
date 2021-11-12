@@ -72,8 +72,8 @@ class App extends React.Component {
     render() {
         return (
             <div className={'App'}>
-                <Menu/>
                 <BrowserRouter>
+                    <Menu/>
                     <Switch>
                         <Route exact path='/'
                                component={() => <UsersList users={this.state.users}/>}/>
