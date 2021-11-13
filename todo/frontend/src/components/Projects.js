@@ -1,7 +1,11 @@
 import React from 'react'
-import {ProjectUser} from "./Project";
 import {Link} from "react-router-dom";
 
+const ProjectUser = ({userId, users}) => {
+    return (
+        <li>{users.find((user) => user.id === userId).username}</li>
+    )
+}
 
 const ProjectItem = ({project, users}) => {
     return (
@@ -11,7 +15,7 @@ const ProjectItem = ({project, users}) => {
             <td>
                 <ul>
                     {project.users.map((userId) =>
-                        <ProjectUser key={`${project.id}.${userId}`} userId={userId} users={users}/>
+                        <ProjectUser key={`IPU${project.id}.${userId}`} userId={userId} users={users}/>
                     )}
                 </ul>
 
@@ -31,12 +35,13 @@ const ProjectsList = ({projects, users}) => {
             </tr>
 
             </thead>
-            <tbody>{projects.map((project) => <ProjectItem key={project.id} project={project} users={users}/>)}</tbody>
+            <tbody>{projects.map((project) => <ProjectItem key={`LPI${project.id}`} project={project}
+                                                           users={users}/>)}</tbody>
         </table>
     )
 }
 
-
+export {ProjectItem, ProjectUser}
 export default ProjectsList
 
 

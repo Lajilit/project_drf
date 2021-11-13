@@ -9,6 +9,7 @@ import ProjectDetail from "./components/Project";
 
 import axios from 'axios'
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
+import UserProjectsList from "./components/UserProjects";
 
 
 const API = 'http://127.0.0.1:8000/api/'
@@ -88,6 +89,9 @@ class App extends React.Component {
                                component={() => <ProjectDetail projects={this.state.projects}
                                                                users={this.state.users}
                                                                notes={this.state.notes}/>}/>
+                        <Route path='/user/:id'
+                               component={() => <UserProjectsList projects={this.state.projects}
+                                                               users={this.state.users}/>}/>
 
                         <Redirect from='/users' to='/'/>
                         <Route component={NotFound404}/>

@@ -1,14 +1,7 @@
 import React from 'react'
 import {useParams} from "react-router-dom";
+import {ProjectUser} from "./Projects";
 
-
-const ProjectUser = ({userId, users}) => {
-    return (
-        <li>
-            {users.find((user) => user.id === userId).username}
-        </li>
-    )
-}
 
 const ProjectDetail = ({projects, users, notes}) => {
     const {id} = useParams();
@@ -21,18 +14,17 @@ const ProjectDetail = ({projects, users, notes}) => {
             <h2>Пользователи, подключенные к проекту</h2>
             <ol>
                 {project.users.map((userId) =>
-                    <ProjectUser key={`${project.id}.${userId}`} userId={userId} users={users}/>
+                    <ProjectUser key={`DPU${project.id}.${userId}`} userId={userId} users={users}/>
                 )}
             </ol>
             <h2>Заметки проекта</h2>
             <ol>
-                {filtered_notes.map((note) => <li key={`${project.id}.${note.id}`}>{note.name}</li>)}
+                {filtered_notes.map((note) => <li key={`DPN${project.id}.${note.id}`}>{note.name}</li>)}
             </ol>
         </div>
     )
 }
 
-export {ProjectUser}
 export default ProjectDetail
 
 
