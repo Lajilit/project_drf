@@ -1,13 +1,14 @@
 import React from 'react';
 import './App.css';
-import UsersList from './components/User.js'
+import UsersList from './components/Users.js'
 import Menu from './components/Menu.js'
 import Footer from './components/Footer.js'
-import ProjectsList from "./components/Project";
+import ProjectsList from "./components/Projects";
+import NotesList from "./components/Notes";
+import ProjectDetail from "./components/Project";
 
 import axios from 'axios'
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
-import NotesList from "./components/Note";
 
 
 const API = 'http://127.0.0.1:8000/api/'
@@ -27,7 +28,8 @@ class App extends React.Component {
         this.state = {
             'users': [],
             'projects': [],
-            'notes': []
+            'notes': [],
+            'project': []
         }
     }
 
@@ -82,6 +84,11 @@ class App extends React.Component {
                                                               users={this.state.users}/>}/>
                         <Route exact path='/notes'
                                component={() => <NotesList notes={this.state.notes}/>}/>
+                        <Route path='/project/:id'
+                               component={() => <ProjectDetail projects={this.state.projects}
+                                                               users={this.state.users}
+                                                               notes={this.state.notes}/>}/>
+
                         <Redirect from='/users' to='/'/>
                         <Route component={NotFound404}/>
 

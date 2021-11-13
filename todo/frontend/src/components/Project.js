@@ -1,4 +1,5 @@
 import React from 'react'
+import {useParams} from "react-router-dom";
 
 
 const ProjectUser = ({userId, users}) => {
@@ -9,41 +10,29 @@ const ProjectUser = ({userId, users}) => {
     )
 }
 
-
-const ProjectItem = ({project, users}) => {
+const ProjectDetail = ({projects, users, notes}) => {
+    const {id} = useParams();
+    const project = projects.find((project) => project.id === +id)
+    const filtered_notes = notes.filter((note) => note.project === project.id)
     return (
-        <tr>
-            <td>{project.name}</td>
-            <td><a href={project.repo}>репозиторий проекта</a></td>
-            <td>
-                <ul>
-                    {project.users.map((userId) =>
-                        <ProjectUser key={`${project.id}.${userId}`} userId={userId}users={users}/>
-                    )}
-                </ul>
-
-            </td>
-        </tr>
+        <div>
+            <h1>Проект {project.name}</h1>
+            <p><a href={project.repo}>Репозиторий проекта</a></p>
+            <h2>Пользователи, подключенные к проекту</h2>
+            <ol>
+                {project.users.map((userId) =>
+                    <ProjectUser key={`${project.id}.${userId}`} userId={userId} users={users}/>
+                )}
+            </ol>
+            <h2>Заметки проекта</h2>
+            <ol>
+                {filtered_notes.map((note) => <li key={`${project.id}.${note.id}`}>{note.name}</li>)}
+            </ol>
+        </div>
     )
 }
 
-const ProjectsList = ({projects, users}) => {
-    return (
-        <table>
-            <thead>
-            <tr>
-                <td>Название проекта</td>
-                <td>Ссылка на репозиторий</td>
-                <td>Пользователи проекта</td>
-            </tr>
-
-            </thead>
-            <tbody>{projects.map((project) => <ProjectItem key={project.id} project={project} users={users}/>)}</tbody>
-        </table>
-    )
-}
-
-
-export default ProjectsList
+export {ProjectUser}
+export default ProjectDetail
 
 
