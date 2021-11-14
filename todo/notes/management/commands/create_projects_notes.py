@@ -5,20 +5,17 @@ from notes.models import Project, Note
 
 class Command(BaseCommand):
     """ Команда создает новые проекты и заметки в базе данных.
-    Первый аргумент - количество проектов, второй аргумент - начальный номер проекта,
-    третий аргумент - количество заметок, четвертый аргумент - начальный номер заметки"""
+    Первый аргумент - количество проектов, второй аргумент - количество заметок"""
 
     def add_arguments(self, parser):
         parser.add_argument('projects', type=int, help="projects count")
-        parser.add_argument('first_p', type=int, help="first project number")
         parser.add_argument('notes', type=int, help="project_notes count")
-        parser.add_argument('first_n', type=int, help="first note number")
 
     def handle(self, *args, **options):
         projects = options['projects']
-        first_p = options['first_p']
+        first_p = Project.objects.all().count() + 1
         notes = options['notes']
-        first_n = options['first_n']
+        first_n = Note.objects.all().count() + 1
 
         for i in range(projects + 1):
             new_project = Project.objects.create(
