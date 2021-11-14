@@ -5,22 +5,30 @@ from users.models import CustomUser
 
 
 class Project(models.Model):
-    name = models.CharField('Название проекта', max_length=128)
-    repo = models.URLField('Ссылка на репозиторий')
-    users = models.ManyToManyField(CustomUser)
+    name = models.CharField(verbose_name='Название проекта', max_length=128)
+    repo = models.URLField(verbose_name='Ссылка на репозиторий')
+    users = models.ManyToManyField(CustomUser, verbose_name='Пользователи проекта')
+
+    class Meta:
+        verbose_name = 'проект'
+        verbose_name_plural = 'проекты'
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
 
 class Note(models.Model):
-    name = models.CharField('Заголовок', max_length=128)
-    project = models.ForeignKey(Project, models.CASCADE)
-    author = models.ForeignKey(CustomUser, models.PROTECT)
-    create_date = models.DateTimeField('Заметка создана', auto_now_add=True)
-    update_date = models.DateTimeField('Заметка обновлена', auto_now=True)
-    text = models.TextField('Текст заметки')
-    closed = models.BooleanField('Выполнено', default=False)
+    name = models.CharField(max_length=128, verbose_name='Заголовок')
+    project = models.ForeignKey(Project, models.CASCADE, related_name='project_notes', verbose_name='Project')
+    user = models.ForeignKey(CustomUser, models.PROTECT, related_name='user_notes', verbose_name='User')
+    create_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    update_date = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
+    text = models.TextField(verbose_name='Текст заметки')
+    is_active = models.BooleanField(default=True, verbose_name='Статус активности')
+
+    class Meta:
+        verbose_name = 'заметка'
+        verbose_name_plural = 'заметки'
 
     def __str__(self):
         return f'{self.project.name}: ({self.name})'

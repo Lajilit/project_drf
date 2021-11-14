@@ -3,7 +3,11 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
-    email = models.EmailField('email address', unique=True)
+    email = models.EmailField(verbose_name='Адрес электронной почты', unique=True)
+
+    class Meta:
+        verbose_name = 'пользователь'
+        verbose_name_plural = 'пользователи'
 
     def __str__(self):
-        return self.username
+        return f'{self.username}'
