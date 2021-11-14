@@ -153,7 +153,12 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100,
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend'],
-    'DATE_INPUT_FORMATS': [('%d.%m.%Y'), ('%d-%m-%Y'), ('%d/%m/%Y'),
-                           ('%Y.%m.%d'), ('%Y-%m-%d'), ('%Y/%m/%d'), ],
-    'DATETIME_FORMAT': '%d.%m.%Y',
+    # 'DATE_INPUT_FORMATS': [('%d.%m.%Y'), ('%d-%m-%Y'), ('%d/%m/%Y'),
+    #                        ('%Y.%m.%d'), ('%Y-%m-%d'), ('%Y/%m/%d'),
+    # ],
+    # 'DATETIME_FORMAT': '%d.%m.%Y',
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ],
+
 }
