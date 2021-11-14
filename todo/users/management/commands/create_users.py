@@ -12,11 +12,12 @@ class Command(BaseCommand):
         num = options['count']
         first = CustomUser.objects.all().count() + 1
 
-        for i in range(first, num + first + 1):
+        for i in range(num):
             new_user = CustomUser.objects.create_user(
-                f'test_user_{i}',
-                f'test_email_{i}@mail.ru',
+                f'test_user_{first}',
+                f'test_email_{first}@mail.ru',
                 '12345',
-                first_name=f'Firstname {i}',
-                last_name=f"Lastname {i}"
+                first_name=f'Firstname {first}',
+                last_name=f"Lastname {first}"
             )
+            first += 1
