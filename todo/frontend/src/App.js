@@ -1,16 +1,17 @@
 import React from 'react';
 import './App.css';
-import UsersTable from './components/Users.js'
 import Menu from './components/Menu.js'
 import Footer from './components/Footer.js'
+import UsersTable from './components/Users.js'
 import ProjectsTable from "./components/Projects";
-import NotesList from "./components/Notes";
+import NotesTable from "./components/Notes";
 import ProjectPage from "./components/Project";
+import UserProjectsTable from "./components/UserProjects";
 
 import axios from 'axios'
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
-import UserProjectsTable from "./components/UserProjects";
-import NotesTable from "./components/Notes";
+
+
 
 const API = 'http://127.0.0.1:8000/api/'
 const get_url = (url_name) => `${API}${url_name}`

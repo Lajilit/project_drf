@@ -8,9 +8,9 @@ const UserProjectsTable = ({getUser, user, projects, users}) => {
         getUser(id)
     }
     let filtered_projects = projects.filter((project) => {
-        for (var i = 0; i < project.users.length; i++) {
+        for (let i = 0; i < project.users.length; i++) {
             if (project.users[i] === +id)
-                return project;
+                return true;
         }
     })
     return (
