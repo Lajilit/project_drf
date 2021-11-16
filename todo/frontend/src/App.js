@@ -30,9 +30,77 @@ class App extends React.Component {
             'users': [],
             'projects': [],
             'notes': [],
-            'project': []
+            'project': {},
+            'user': {}
         }
     }
+
+
+    render() {
+        return (
+            <div className={'App'}>
+                <BrowserRouter>
+                    <Menu/>
+                    <Switch>
+                        <Route exact path='/'>
+                            <UsersList
+                                users={this.state.users}/>
+                        </Route>
+                        <Route exact path='/projects'>
+                            <ProjectsList
+                                projects={this.state.projects}
+                                users={this.state.users}/>
+                        </Route>
+                        <Route exact path='/notes'>
+                            <NotesList
+                                notes={this.state.notes}/>
+                        </Route>
+                        <Route path='/project/:id'>
+                            <ProjectDetail
+                                getProject={(id) => this.getProject(id)}
+                                project={this.state.project}
+                                users={this.state.users}
+                                notes={this.state.notes}/>
+                        </Route>
+                        <Route path='/user/:id'>
+                            <UserProjectsList
+                                getUser={(id) => this.getUser(id)}
+                                user={this.state.user}
+                                projects={this.state.projects}
+                                users={this.state.users}/>
+                        </Route>
+                        <Redirect from='/users' to='/'/>
+                        <Route component={NotFound404}/>
+
+                    </Switch>
+                </BrowserRouter>
+                <Footer/>
+            </div>
+        )
+    }
+
+    getUser(id) {
+        console.log('call', get_url(`users/${id}`))
+        axios
+            .get(get_url(`users/${id}`))
+            .then(response => {
+                this.setState({user: response.data});
+                console.log('get', response.data);
+            })
+            .catch(error => console.log(error))
+    }
+
+    getProject(id) {
+        console.log('call', get_url(`projects/${id}`))
+        axios
+            .get(get_url(`projects/${id}`))
+            .then(response => {
+                this.setState({project: response.data});
+                console.log('get', response.data);
+            })
+            .catch(error => console.log(error))
+    }
+
 
     componentDidMount() {
         axios
@@ -70,39 +138,8 @@ class App extends React.Component {
             .catch(error => console.log(error))
 
     }
-
-
-    render() {
-        return (
-            <div className={'App'}>
-                <BrowserRouter>
-                    <Menu/>
-                    <Switch>
-                        <Route exact path='/'
-                               component={() => <UsersList users={this.state.users}/>}/>
-                        <Route exact path='/projects'
-                               component={() => <ProjectsList projects={this.state.projects}
-                                                              users={this.state.users}/>}/>
-                        <Route exact path='/notes'
-                               component={() => <NotesList notes={this.state.notes}/>}/>
-                        <Route path='/project/:id'
-                               component={() => <ProjectDetail projects={this.state.projects}
-                                                               users={this.state.users}
-                                                               notes={this.state.notes}/>}/>
-                        <Route path='/user/:id'
-                               component={() => <UserProjectsList projects={this.state.projects}
-                                                               users={this.state.users}/>}/>
-
-                        <Redirect from='/users' to='/'/>
-                        <Route component={NotFound404}/>
-
-                    </Switch>
-                </BrowserRouter>
-                <Footer/>
-            </div>
-        )
-    }
 }
+
 
 export default App;
 

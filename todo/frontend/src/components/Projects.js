@@ -5,7 +5,7 @@ const ProjectUser = ({userId, users}) => {
     let user = users.find((user) => user.id === userId)
     if (user) {
         return (
-            <li>{user.username}</li>
+            <li><Link to={`/user/${user.id}`}>{user.username}</Link></li>
         )
     }
 }
