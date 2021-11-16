@@ -11,10 +11,8 @@ import axios from 'axios'
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import UserProjectsList from "./components/UserProjects";
 
-
 const API = 'http://127.0.0.1:8000/api/'
 const get_url = (url_name) => `${API}${url_name}`
-
 const NotFound404 = ({location}) => {
     return (
         <div>
@@ -34,7 +32,6 @@ class App extends React.Component {
             'user': {}
         }
     }
-
 
     render() {
         return (
@@ -101,7 +98,6 @@ class App extends React.Component {
             .catch(error => console.log(error))
     }
 
-
     componentDidMount() {
         axios
             .get(get_url('users'))
@@ -139,7 +135,6 @@ class App extends React.Component {
 
     }
 }
-
 
 export default App;
 
