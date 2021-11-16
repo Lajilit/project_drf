@@ -1,19 +1,6 @@
 import React from 'react'
 
-
-const NoteItem = ({note}) => {
-    return (
-        <tr>
-            <td>{note.name}</td>
-            <td>{note.project}</td>
-            <td>{note.user}</td>
-            <td>{note.text}</td>
-        </tr>
-    )
-}
-
-
-const Noteslist = ({notes}) => {
+const NotesTable = ({notes}) => {
     return (
         <table>
             <thead>
@@ -25,10 +12,20 @@ const Noteslist = ({notes}) => {
             </tr>
 
             </thead>
-            <tbody>{notes.map((note) => <NoteItem key={note.id} note={note}/>)}</tbody>
+            <tbody>{notes.map((note) => <NoteTableString key={note.id} note={note}/>)}</tbody>
         </table>
     )
 }
 
+const NoteTableString = ({note}) => {
+    return (
+        <tr>
+            <td>{note.name}</td>
+            <td>{note.project}</td>
+            <td>{note.user}</td>
+            <td>{note.text}</td>
+        </tr>
+    )
+}
 
-export default Noteslist
+export default NotesTable

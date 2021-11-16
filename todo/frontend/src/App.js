@@ -1,15 +1,16 @@
 import React from 'react';
 import './App.css';
-import UsersList from './components/Users.js'
+import UsersTable from './components/Users.js'
 import Menu from './components/Menu.js'
 import Footer from './components/Footer.js'
-import ProjectsList from "./components/Projects";
+import ProjectsTable from "./components/Projects";
 import NotesList from "./components/Notes";
-import ProjectDetail from "./components/Project";
+import ProjectPage from "./components/Project";
 
 import axios from 'axios'
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
-import UserProjectsList from "./components/UserProjects";
+import UserProjectsTable from "./components/UserProjects";
+import NotesTable from "./components/Notes";
 
 const API = 'http://127.0.0.1:8000/api/'
 const get_url = (url_name) => `${API}${url_name}`
@@ -40,27 +41,27 @@ class App extends React.Component {
                     <Menu/>
                     <Switch>
                         <Route exact path='/'>
-                            <UsersList
+                            <UsersTable
                                 users={this.state.users}/>
                         </Route>
                         <Route exact path='/projects'>
-                            <ProjectsList
+                            <ProjectsTable
                                 projects={this.state.projects}
                                 users={this.state.users}/>
                         </Route>
                         <Route exact path='/notes'>
-                            <NotesList
+                            <NotesTable
                                 notes={this.state.notes}/>
                         </Route>
                         <Route path='/project/:id'>
-                            <ProjectDetail
+                            <ProjectPage
                                 getProject={(id) => this.getProject(id)}
                                 project={this.state.project}
                                 users={this.state.users}
                                 notes={this.state.notes}/>
                         </Route>
                         <Route path='/user/:id'>
-                            <UserProjectsList
+                            <UserProjectsTable
                                 getUser={(id) => this.getUser(id)}
                                 user={this.state.user}
                                 projects={this.state.projects}

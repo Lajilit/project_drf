@@ -1,9 +1,8 @@
 import React from 'react'
 import {useParams} from "react-router-dom";
-import {ProjectItem} from "./Projects";
+import {ProjectsTableString} from "./Projects";
 
-
-const UserProjectsList = ({getUser, user, projects, users}) => {
+const UserProjectsTable = ({getUser, user, projects, users}) => {
     let {id} = useParams();
     if (!Object.keys(user).length || user.id !== +id) {
         getUser(id)
@@ -28,7 +27,7 @@ const UserProjectsList = ({getUser, user, projects, users}) => {
                 </thead>
                 <tbody>
                 {filtered_projects.map((project) =>
-                    <ProjectItem
+                    <ProjectsTableString
                         key={`UPI${user.id}.${project.id}`}
                         project={project}
                         users={users}/>
@@ -39,4 +38,4 @@ const UserProjectsList = ({getUser, user, projects, users}) => {
     )
 }
 
-export default UserProjectsList
+export default UserProjectsTable
