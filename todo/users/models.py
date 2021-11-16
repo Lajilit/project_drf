@@ -3,7 +3,10 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(verbose_name='Адрес электронной почты', unique=True)
+    email = models.EmailField(
+        verbose_name='Адрес электронной почты',
+        unique=True
+    )
 
     class Meta:
         verbose_name = 'пользователь'
