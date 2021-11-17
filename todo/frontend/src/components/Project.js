@@ -15,9 +15,7 @@ const ProjectPage = ({getProject, project, notes}) => {
                 Проект {project.name}
             </h1>
             <p>
-                <a href={project.repo}>
-                    Репозиторий проекта
-                </a>
+                <a href={project.repo}>Репозиторий проекта</a>
             </p>
             <h2>
                 Пользователи, подключенные к проекту
