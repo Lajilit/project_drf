@@ -1,39 +1,54 @@
 import React from 'react'
 import {Link} from "react-router-dom";
-import {UsersListItem} from "./Users";
 
-const ProjectsTable = ({projects, users}) => {
+
+const ProjectsTable = ({projects}) => {
     return (
         <table>
             <thead>
             <tr>
-                <td>Название проекта</td>
-                <td>Ссылка на репозиторий</td>
-                <td>Пользователи проекта</td>
+                <td>
+                    Название проекта
+                </td>
+                <td>
+                    Ссылка на репозиторий
+                </td>
+                <td>
+                    Пользователи проекта
+                </td>
             </tr>
-
             </thead>
-            <tbody>{projects.map((project) => <ProjectsTableString
-                key={`LPI${project.id}`} project={project}
-                users={users}/>)}</tbody>
+            <tbody>
+                {projects.map((project) =>
+                    <ProjectsTableString
+                        key={`LPI${project.id}`} project={project}/>
+                )}
+            </tbody>
         </table>
     )
 }
 
-const ProjectsTableString = ({project, users}) => {
+const ProjectsTableString = ({project}) => {
     return (
         <tr>
-            <td><Link to={`/project/${project.id}`}>{project.name}</Link>
+            <td>
+                <Link to={`/project/${project.id}`}>
+                    {project.name}
+                </Link>
             </td>
-            <td><a href={project.repo}>репозиторий проекта</a></td>
+            <td>
+                <a href={project.repo}>репозиторий проекта</a>
+            </td>
             <td>
                 <ul>
-                    {project.users.map((userId) =>
-                        <UsersListItem key={`IPU${project.id}.${userId}`}
-                                       userId={userId} users={users}/>
+                    {project.users.map((user) =>
+                        <li key={`PTSU${project.id}.${user.id}`}>
+                            <Link to={`/user/${user.id}`}>
+                                {user.firstName} {user.lastName}
+                            </Link>
+                        </li>
                     )}
                 </ul>
-
             </td>
         </tr>
     )

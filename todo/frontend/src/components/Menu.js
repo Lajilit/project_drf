@@ -6,13 +6,19 @@ function Menu() {
         <nav>
             <ul>
                 <li>
-                    <Link to='/'>Пользователи</Link>
+                    <Link to='/'>
+                        Пользователи
+                    </Link>
                 </li>
                 <li>
-                    <Link to='/projects'>Проекты</Link>
+                    <Link to='/projects'>
+                        Проекты
+                    </Link>
                 </li>
                 <li>
-                    <Link to='/notes'>Заметки</Link>
+                    <Link to='/notes'>
+                        Заметки
+                    </Link>
                 </li>
             </ul>
         </nav>

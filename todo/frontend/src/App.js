@@ -51,7 +51,7 @@ class App extends React.Component {
             })
             .catch(error => console.log(error))
         axios
-            .get(get_url('projects'))
+            .get(get_url('api/projects'))
             .then(response => {
                 const projects = response.data.results;
                 this.setState({'projects': projects})
@@ -60,9 +60,9 @@ class App extends React.Component {
     }
 
     getUser(id) {
-        console.log('call', get_url(`users/${id}`))
+        console.log('call', get_url(`api/users/${id}`))
         axios
-            .get(get_url(`users/${id}`))
+            .get(get_url(`api/users/${id}`))
             .then(response => {
                 this.setState({user: response.data});
             })
@@ -70,9 +70,9 @@ class App extends React.Component {
     }
 
     getProject(id) {
-        console.log('call', get_url(`projects/${id}`))
+        console.log('call', get_url(`api/projects/${id}`))
         axios
-            .get(get_url(`projects/${id}`))
+            .get(get_url(`api/projects/${id}`))
             .then(response => {
                 this.setState({project: response.data});
                 console.log('get', response.data);
@@ -96,8 +96,7 @@ class App extends React.Component {
                         </Route>
                         <Route exact path='/projects'>
                             <ProjectsTable
-                                projects={this.state.projects}
-                                users={this.state.users}/>
+                                projects={this.state.projects}/>
                         </Route>
                         <Route exact path='/notes'>
                             <NotesTable
@@ -107,15 +106,13 @@ class App extends React.Component {
                             <ProjectPage
                                 getProject={(id) => this.getProject(id)}
                                 project={this.state.project}
-                                users={this.state.users}
                                 notes={this.state.notes}/>
                         </Route>
                         <Route path='/user/:id'>
                             <UserProjectsTable
                                 getUser={(id) => this.getUser(id)}
                                 user={this.state.user}
-                                projects={this.state.projects}
-                                users={this.state.users}/>
+                                projects={this.state.projects}/>
                         </Route>
                         <Redirect from='/users' to='/'/>
                         <Route component={NotFound404}/>
