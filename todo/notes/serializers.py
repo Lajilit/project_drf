@@ -1,9 +1,11 @@
 from rest_framework.serializers import ModelSerializer
 
+from users.serializers import CustomUserModelSerializer
 from .models import Project, Note
 
 
 class ProjectModelSerializer(ModelSerializer):
+    users = CustomUserModelSerializer(many=True)
 
     class Meta:
         model = Project
@@ -11,6 +13,8 @@ class ProjectModelSerializer(ModelSerializer):
 
 
 class NoteModelSerializer(ModelSerializer):
+    project = ProjectModelSerializer()
+    user = CustomUserModelSerializer()
 
     class Meta:
         model = Note
