@@ -12,8 +12,7 @@ import axios from 'axios'
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 
 
-
-const API = 'http://127.0.0.1:8000/api/'
+const API = 'http://127.0.0.1:8000/'
 const get_url = (url_name) => `${API}${url_name}`
 const NotFound404 = ({location}) => {
     return (
@@ -33,6 +32,56 @@ class App extends React.Component {
             'project': {},
             'user': {}
         }
+    }
+
+    load_data() {
+        axios
+            .get(get_url('api/users'))
+            .then(response => {
+                const users = response.data.results;
+                this.setState({'users': users})
+            })
+            .catch(error => console.log(error))
+
+        axios
+            .get(get_url('api/notes'))
+            .then(response => {
+                const notes = response.data.results;
+                this.setState({'notes': notes})
+            })
+            .catch(error => console.log(error))
+        axios
+            .get(get_url('projects'))
+            .then(response => {
+                const projects = response.data.results;
+                this.setState({'projects': projects})
+            })
+            .catch(error => console.log(error))
+    }
+
+    getUser(id) {
+        console.log('call', get_url(`users/${id}`))
+        axios
+            .get(get_url(`users/${id}`))
+            .then(response => {
+                this.setState({user: response.data});
+            })
+            .catch(error => console.log(error))
+    }
+
+    getProject(id) {
+        console.log('call', get_url(`projects/${id}`))
+        axios
+            .get(get_url(`projects/${id}`))
+            .then(response => {
+                this.setState({project: response.data});
+                console.log('get', response.data);
+            })
+            .catch(error => console.log(error))
+    }
+
+    componentDidMount() {
+        this.load_data()
     }
 
     render() {
@@ -76,65 +125,6 @@ class App extends React.Component {
                 <Footer/>
             </div>
         )
-    }
-
-    getUser(id) {
-        console.log('call', get_url(`users/${id}`))
-        axios
-            .get(get_url(`users/${id}`))
-            .then(response => {
-                this.setState({user: response.data});
-                console.log('get', response.data);
-            })
-            .catch(error => console.log(error))
-    }
-
-    getProject(id) {
-        console.log('call', get_url(`projects/${id}`))
-        axios
-            .get(get_url(`projects/${id}`))
-            .then(response => {
-                this.setState({project: response.data});
-                console.log('get', response.data);
-            })
-            .catch(error => console.log(error))
-    }
-
-    componentDidMount() {
-        axios
-            .get(get_url('users'))
-            .then(response => {
-                const users = response.data.results;
-                this.setState(
-                    {
-                        'users': users,
-                    }
-                )
-            })
-            .catch(error => console.log(error))
-        axios
-            .get(get_url('projects'))
-            .then(response => {
-                const projects = response.data.results;
-                this.setState(
-                    {
-                        'projects': projects,
-                    }
-                )
-            })
-            .catch(error => console.log(error))
-        axios
-            .get(get_url('notes'))
-            .then(response => {
-                const notes = response.data.results;
-                this.setState(
-                    {
-                        'notes': notes,
-                    }
-                )
-            })
-            .catch(error => console.log(error))
-
     }
 }
 
