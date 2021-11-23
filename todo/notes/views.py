@@ -3,7 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from .filters import ProjectFilter, NoteFilter
 from .models import Project, Note
-from .serializers import ProjectModelSerializer, NoteModelSerializer
+from .serializers import ProjectModelSerializer, NoteModelSerializer, ProjectModelGetSerializer, NoteModelGetSerializer
 
 
 class ProjectLimitOffsetPagination(LimitOffsetPagination):
@@ -12,9 +12,13 @@ class ProjectLimitOffsetPagination(LimitOffsetPagination):
 
 class ProjectModelViewSet(ModelViewSet):
     queryset = Project.objects.all()
-    serializer_class = ProjectModelSerializer
     pagination_class = ProjectLimitOffsetPagination
     filterset_class = ProjectFilter
+
+    def get_serializer_class(self):
+        if self.request.method in ['GET']:
+            return ProjectModelGetSerializer
+        return ProjectModelSerializer
 
 
 class NoteLimitOffsetPagination(LimitOffsetPagination):
@@ -23,9 +27,13 @@ class NoteLimitOffsetPagination(LimitOffsetPagination):
 
 class NoteModelViewSet(ModelViewSet):
     queryset = Note.objects.all()
-    serializer_class = NoteModelSerializer
     pagination_class = NoteLimitOffsetPagination
     filterset_class = NoteFilter
+
+    def get_serializer_class(self):
+        if self.request.method in ['GET']:
+            return NoteModelGetSerializer
+        return NoteModelSerializer
 
     def destroy(self, request, *args, **kwargs):
         note = self.get_object()  # deleting note
