@@ -28,13 +28,13 @@ class Command(BaseCommand):
             )
             project_number += 1
             all_users = [i + 1 for i in range(users_count)]
-            new_project.users.set(sample(all_users, 3))
+            new_project.test_users.set(sample(all_users, 3))
             new_project.save()
             for i in range(project_notes_count):
                 new_note = Note.objects.create(
                     name=f'Test note {note_number}',
                     text=f'Test note {note_number} text',
-                    user=new_project.users.first(),
+                    user=new_project.test_users.first(),
                     project=new_project
                 )
                 note_number += 1
