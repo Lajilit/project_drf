@@ -148,7 +148,8 @@ class TestNoteViewSet(APITestCase):
         response = self.client.get(self.notes_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_edit_note(self):
+    def test_edit_note_without_mixer(self):
+        self.client.force_login(user=self.test_superuser)
         test_project_data = {
                     'name': 'test project 1',
                     'repo': 'https://github.com/Lajilit/project_drf'
@@ -165,7 +166,7 @@ class TestNoteViewSet(APITestCase):
             'project': project.id,
             'text': 'text updated'
         }
-        self.client.force_login(user=self.test_superuser)
+
         response = self.client.put(f'{self.notes_url}{note.id}/', test_note_data_updated)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -174,8 +175,8 @@ class TestNoteViewSet(APITestCase):
         self.assertEqual(note_updated.text, 'text updated')
 
     def test_note_edit_mixer(self):
-        note = mixer.blend(Note, project__users=[user.id for user in CustomUser.objects.filter(pk__gte=3)])
         self.client.force_login(user=self.test_superuser)
+        note = mixer.blend(Note, project__users=[user.id for user in CustomUser.objects.filter(pk__gte=3)])
 
         test_note_data_updated = {
             'name': 'test note updated',
