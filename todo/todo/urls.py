@@ -49,6 +49,7 @@ urlpatterns = [
     path('api/token-auth/', obtain_auth_token),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    # path('api/0.2/', include('users.urls', namespace='0.2')),
     path('api/', include(router.urls)),
     path('api/<str:version>/', include(router.urls)),
     path('swagger<str:format>', schema_view.without_ui(cache_timeout=0), name='schema-json'),
