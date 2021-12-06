@@ -33,13 +33,13 @@ class Note(models.Model):
     project = models.ForeignKey(
         Project,
         models.CASCADE,
-        related_name='project_notes',
+        related_name='notes',
         verbose_name='Project'
     )
     user = models.ForeignKey(
         CustomUser,
         models.PROTECT,
-        related_name='user_notes',
+        related_name='notes',
         verbose_name='User'
     )
     create_date = models.DateTimeField(
