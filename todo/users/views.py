@@ -3,10 +3,15 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, \
 from rest_framework.viewsets import GenericViewSet
 
 from .models import CustomUser
-from .serializers import CustomUserModelSerializer
+from .serializers import CustomUserModelSerializer, CustomUserModelStaffSerializer
 
 
 class CustomUserCustomViewSet(ListModelMixin, RetrieveModelMixin,
                               UpdateModelMixin, GenericViewSet):
     queryset = CustomUser.objects.all()
-    serializer_class = CustomUserModelSerializer
+
+    def get_serializer_class(self):
+        if self.request.version == '0.2' :
+            return CustomUserModelStaffSerializer
+        return CustomUserModelSerializer
+

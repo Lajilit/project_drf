@@ -13,7 +13,7 @@ import {BrowserRouter, Link, Redirect, Route, Switch} from "react-router-dom";
 import Cookies from "universal-cookie/lib";
 
 
-const API = 'http://127.0.0.1:8000/'
+const API = 'http://127.0.0.1:8000/api/'
 const get_url = (url_name) => `${API}${url_name}`
 const NotFound404 = ({location}) => {
     return (
@@ -59,7 +59,7 @@ class App extends React.Component {
 
     getToken(username, password) {
         axios
-            .post(get_url('api-token-auth/'), {
+            .post(get_url('token-auth/'), {
                 username: username,
                 password: password
             })
@@ -81,7 +81,7 @@ class App extends React.Component {
     loadData() {
         const headers = this.getHeaders()
         axios
-            .get(get_url('api/users'), {headers})
+            .get(get_url('users'), {headers})
             .then(response => {
                 const users = response.data.results;
                 this.setState({'users': users})
@@ -92,7 +92,7 @@ class App extends React.Component {
             })
 
         axios
-            .get(get_url('api/notes'), {headers})
+            .get(get_url('notes'), {headers})
             .then(response => {
                 const notes = response.data.results;
                 this.setState({'notes': notes})
@@ -102,7 +102,7 @@ class App extends React.Component {
                 this.setState({'notes': []})
             })
         axios
-            .get(get_url('api/projects'), {headers})
+            .get(get_url('projects'), {headers})
             .then(response => {
                 const projects = response.data.results;
                 this.setState({'projects': projects})
@@ -115,9 +115,9 @@ class App extends React.Component {
 
     getUser(id) {
         const headers = this.getHeaders()
-        console.log('call', get_url(`api/users/${id}`), {headers})
+        console.log('call', get_url(`users/${id}`), {headers})
         axios
-            .get(get_url(`api/users/${id}`), {headers})
+            .get(get_url(`users/${id}`), {headers})
             .then(response => {
                 this.setState({user: response.data});
             })
@@ -128,9 +128,9 @@ class App extends React.Component {
 
     getProject(id) {
         const headers = this.getHeaders()
-        console.log('call', get_url(`api/projects/${id}`), {headers})
+        console.log('call', get_url(`projects/${id}`), {headers})
         axios
-            .get(get_url(`api/projects/${id}`), {headers})
+            .get(get_url(`projects/${id}`), {headers})
             .then(response => {
                 this.setState({project: response.data});
                 console.log('get', response.data);
