@@ -151,6 +151,17 @@ class App extends React.Component {
             })
     }
 
+    deleteProject(id) {
+        const headers = this.getHeaders()
+        axios.delete(get_url(`projects/${id}/`), {headers})
+            .then(response => {
+                this.setState({projects: this.state.projects.filter((item) => item.id !== id)})
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
     componentDidMount() {
         this.getTokenFromStorage()
     }
@@ -175,10 +186,12 @@ class App extends React.Component {
                             <UsersTable users={this.state.users}/>
                         </Route>
                         <Route exact path='/projects'>
-                            <ProjectsTable projects={this.state.projects}/>
+                            <ProjectsTable projects={this.state.projects}
+                                           deleteProject={(id) => this.deleteProject(id)}/>
                         </Route>
                         <Route exact path='/notes'>
-                            <NotesTable notes={this.state.notes} deleteNote={(id) => this.deleteNote(id)}/>
+                            <NotesTable notes={this.state.notes}
+                                        deleteNote={(id) => this.deleteNote(id)}/>
                         </Route>
                         <Route path='/project/:id'>
                             <ProjectPage getProject={(id) => this.getProject(id)}
@@ -188,7 +201,8 @@ class App extends React.Component {
                         <Route path='/user/:id'>
                             <UserProjectsTable getUser={(id) => this.getUser(id)}
                                                user={this.state.user}
-                                               projects={this.state.projects}/>
+                                               projects={this.state.projects}
+                                               deleteProject={(id) => this.deleteProject(id)}/>
                         </Route>
                         <Route exact path='/login'>
                             <LoginForm getToken={(username, password) => this.getToken(username, password)}/>

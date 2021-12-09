@@ -2,7 +2,7 @@ import React from 'react'
 import {Link} from "react-router-dom";
 
 
-const ProjectsTable = ({projects}) => {
+const ProjectsTable = ({projects, deleteProject}) => {
     return (
         <table>
             <thead>
@@ -16,19 +16,22 @@ const ProjectsTable = ({projects}) => {
                 <td>
                     Пользователи проекта
                 </td>
+                <td>
+                    Пользователи проекта
+                </td>
             </tr>
             </thead>
             <tbody>
-                {projects.map((project) =>
-                    <ProjectsTableString
-                        key={`LPI${project.id}`} project={project}/>
+                {projects.map((project) => <ProjectsTableString key={`LPI${project.id}`}
+                                                                project={project}
+                                                                deleteProject={deleteProject}/>
                 )}
             </tbody>
         </table>
     )
 }
 
-const ProjectsTableString = ({project}) => {
+const ProjectsTableString = ({project, deleteProject}) => {
     return (
         <tr>
             <td>
@@ -49,6 +52,11 @@ const ProjectsTableString = ({project}) => {
                         </li>
                     )}
                 </ul>
+            </td>
+            <td>
+                <button onClick={() => deleteProject(project.id)}>
+                    Delete project
+                </button>
             </td>
         </tr>
     )

@@ -2,9 +2,8 @@ import React from 'react'
 import {useParams} from "react-router-dom";
 import {ProjectsTableString} from "./Projects";
 
-const UserProjectsTable = ({getUser, user, projects}) => {
+const UserProjectsTable = ({getUser, user, projects, deleteProject}) => {
     let {id} = useParams();
-    console.log(projects)
     if (!Object.keys(user).length || user.id !== +id) {
         getUser(id)
     }
@@ -31,14 +30,16 @@ const UserProjectsTable = ({getUser, user, projects}) => {
                     <td>
                         Пользователи проекта
                     </td>
+                    <td>
+
+                    </td>
                 </tr>
 
                 </thead>
                 <tbody>
-                {filtered_projects.map((project) =>
-                    <ProjectsTableString
-                        key={`UPTP${user.id}.${project.id}`}
-                        project={project}/>
+                {filtered_projects.map((project) => <ProjectsTableString key={`UPTP${user.id}.${project.id}`}
+                                                                         project={project}
+                                                                         deleteProject={deleteProject}/>
                 )}
                 </tbody>
             </table>

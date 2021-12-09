@@ -53,7 +53,7 @@ const NoteTableString = ({note, deleteNote}) => {
             </td>
             <td>
                 <button onClick={() => deleteNote(note.id)}>
-                    Delete
+                    Delete note
                 </button>
             </td>
         </tr>
