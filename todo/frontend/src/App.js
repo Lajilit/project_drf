@@ -11,6 +11,7 @@ import LoginForm from './components/Auth.js'
 import axios from 'axios'
 import {BrowserRouter, Link, Redirect, Route, Switch} from "react-router-dom";
 import Cookies from "universal-cookie/lib";
+import NoteForm from "./components/NoteForm";
 
 
 const API = 'http://127.0.0.1:8000/api/'
@@ -140,11 +141,34 @@ class App extends React.Component {
             })
     }
 
+    createNote(name, project, user, text) {
+        const headers = this.getHeaders()
+        const data = {name: name, project: project, user: user, text: text}
+        // console.log('post', get_url(`notes/`), data, {headers})
+        axios
+            .post(get_url(`notes/`), data, {headers})
+            .then(response => {
+                //     let new_note = response.data
+                //     const project = this.state.projects.filter((item) => item.id === new_note.project)[0]
+                //     new_note.project = project
+                //     const user = this.state.users.filter((item) => item.id === new_note.user)[0]
+                //     new_note.user = user
+                //     this.setState({notes: [...this.state.notes, new_note]})
+                this.loadData()
+            })
+
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+
     deleteNote(id) {
         const headers = this.getHeaders()
         axios.delete(get_url(`notes/${id}/`), {headers})
             .then(response => {
-                this.setState({notes: this.state.notes.filter((item) => item.id !== id)})
+                // this.setState({notes: this.state.notes.filter((item) => item.id !== id)})
+                this.loadData()
             })
             .catch(error => {
                 console.log(error)
@@ -155,7 +179,8 @@ class App extends React.Component {
         const headers = this.getHeaders()
         axios.delete(get_url(`projects/${id}/`), {headers})
             .then(response => {
-                this.setState({projects: this.state.projects.filter((item) => item.id !== id)})
+                // this.setState({projects: this.state.projects.filter((item) => item.id !== id)})
+                this.loadData()
             })
             .catch(error => {
                 console.log(error)
@@ -189,6 +214,11 @@ class App extends React.Component {
                             <ProjectsTable projects={this.state.projects}
                                            deleteProject={(id) => this.deleteProject(id)}/>
                         </Route>
+                        <Route exact path='/notes/create'>
+                            <NoteForm createNote={
+                                (name, project, user, text) => this.createNote(name, project, user, text)}/>
+                        </Route>
+
                         <Route exact path='/notes'>
                             <NotesTable notes={this.state.notes}
                                         deleteNote={(id) => this.deleteNote(id)}/>
