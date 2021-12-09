@@ -115,7 +115,7 @@ class App extends React.Component {
 
     getUser(id) {
         const headers = this.getHeaders()
-        console.log('call', get_url(`users/${id}`), {headers})
+        // console.log('call', get_url(`users/${id}`), {headers})
         axios
             .get(get_url(`users/${id}`), {headers})
             .then(response => {
@@ -128,12 +128,23 @@ class App extends React.Component {
 
     getProject(id) {
         const headers = this.getHeaders()
-        console.log('call', get_url(`projects/${id}`), {headers})
+        // console.log('call', get_url(`projects/${id}`), {headers})
         axios
             .get(get_url(`projects/${id}`), {headers})
             .then(response => {
                 this.setState({project: response.data});
-                console.log('get', response.data);
+                // console.log('get', response.data);
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+    deleteNote(id) {
+        const headers = this.getHeaders()
+        axios.delete(get_url(`notes/${id}/`), {headers})
+            .then(response => {
+                this.setState({notes: this.state.notes.filter((item) => item.id !== id)})
             })
             .catch(error => {
                 console.log(error)
@@ -167,7 +178,7 @@ class App extends React.Component {
                             <ProjectsTable projects={this.state.projects}/>
                         </Route>
                         <Route exact path='/notes'>
-                            <NotesTable notes={this.state.notes}/>
+                            <NotesTable notes={this.state.notes} deleteNote={(id) => this.deleteNote(id)}/>
                         </Route>
                         <Route path='/project/:id'>
                             <ProjectPage getProject={(id) => this.getProject(id)}

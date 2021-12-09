@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from "react-router-dom";
 
-const NotesTable = ({notes}) => {
+const NotesTable = ({notes, deleteNote}) => {
     return (
         <table>
             <thead>
@@ -18,36 +18,43 @@ const NotesTable = ({notes}) => {
                 <td>
                     Текст заметки
                 </td>
+                <td></td>
             </tr>
 
             </thead>
             <tbody>
-            {notes.map((note) =>
-                <NoteTableString key={note.id} note={note}/>
-            )}
+                {notes.map((note) => <NoteTableString key={note.id}
+                                                      note={note}
+                                                      deleteNote={deleteNote}/>
+                )}
             </tbody>
         </table>
     )
 }
 
-const NoteTableString = ({note}) => {
+const NoteTableString = ({note, deleteNote}) => {
     return (
         <tr>
             <td>
                 {note.name}
             </td>
             <td>
-                <Link to={`/project/${note.project.id}`}>
+                <Link to={`/project/${note.project.id}/`}>
                     {note.project.name}
                 </Link>
             </td>
             <td>
-                <Link to={`/user/${note.user.id}`}>
+                <Link to={`/user/${note.user.id}/`}>
                     {note.user.firstName} {note.user.lastName}
                 </Link>
             </td>
             <td>
                 {note.text}
+            </td>
+            <td>
+                <button onClick={() => deleteNote(note.id)}>
+                    Delete
+                </button>
             </td>
         </tr>
     )
