@@ -30,7 +30,7 @@ const NotesTable = ({notes, deleteNote}) => {
                 )}
                 </tbody>
             </table>
-            <Link to='/notes/create'>Create</Link>
+            <Link to='/notes/create'>Create new note</Link>
         </>
 
     )

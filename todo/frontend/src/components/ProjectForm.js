@@ -2,14 +2,13 @@ import React from 'react'
 import {Redirect} from "react-router-dom";
 
 
-class NoteForm extends React.Component {
+class ProjectForm extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             name: '',
-            project: props.projects[0].id,
-            user: props.users[0].id,
-            text: '',
+            users: props.users[0].id,
+            repo: '',
             redirect: false
         }
     }
@@ -17,13 +16,21 @@ class NoteForm extends React.Component {
     handleChange(event) {
         this.setState(
             {
-                [event.target.name]: event.target.value,
+                [event.target.name]: event.target.value
+            }
+        );
+    }
+
+    handleChangeMulti(event) {
+        this.setState(
+            {
+                [event.target.name]: Array.from(event.target.selectedOptions, item => item.value)
             }
         );
     }
 
     handleSubmit(event) {
-        this.props.createNote(this.state.name, this.state.project, this.state.user, this.state.text)
+        this.props.createProject(this.state.name, this.state.users, this.state.repo)
         event.preventDefault()
         this.setState({
             redirect: true
@@ -41,37 +48,28 @@ class NoteForm extends React.Component {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="project">project</label>
+                        <label htmlFor="users">users</label>
 
                         <select className="form-control"
-                                name="project"
-                                onChange={(event) => this.handleChange(event)}>
-                            {this.props.projects.map((project) => <option key={project.id}
-                                                                          value={project.id}>{project.name}</option>)}
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="user">user</label>
-
-                        <select className="form-control"
-                                name="user"
-                                onChange={(event) => this.handleChange(event)}>
+                                multiple
+                                name="users"
+                                onChange={(event) => this.handleChangeMulti(event)}>
                             {this.props.users.map((user) => <option key={user.id}
                                                                     value={user.id}>{user.username}</option>)}
                         </select>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="text">text</label>
+                        <label htmlFor="repo">repo</label>
 
-                        <input type="text" className="form-control" name="text" value={this.state.text}
+                        <input type="text" className="form-control" name="repo" value={this.state.repo}
                                onChange={(event) => this.handleChange(event)}/>
                     </div>
                     <input type="submit" className="btn btn-primary" value="Save"/>
                 </form>
-                {this.state.redirect ? (<Redirect push to="/notes"/>) : null}
+                {this.state.redirect ? (<Redirect push to="/projects"/>) : null}
             </>
         );
     }
 }
 
-export default NoteForm
+export default ProjectForm

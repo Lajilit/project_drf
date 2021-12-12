@@ -4,30 +4,33 @@ import {Link} from "react-router-dom";
 
 const ProjectsTable = ({projects, deleteProject}) => {
     return (
-        <table>
-            <thead>
-            <tr>
-                <td>
-                    Название проекта
-                </td>
-                <td>
-                    Ссылка на репозиторий
-                </td>
-                <td>
-                    Пользователи проекта
-                </td>
-                <td>
-                    Пользователи проекта
-                </td>
-            </tr>
-            </thead>
-            <tbody>
+        <>
+            <table>
+                <thead>
+                <tr>
+                    <td>
+                        Название проекта
+                    </td>
+                    <td>
+                        Ссылка на репозиторий
+                    </td>
+                    <td>
+                        Пользователи проекта
+                    </td>
+                    <td>
+                        Пользователи проекта
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
                 {projects.map((project) => <ProjectsTableString key={`LPI${project.id}`}
                                                                 project={project}
                                                                 deleteProject={deleteProject}/>
                 )}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+            <Link to='/projects/create'>Create new project</Link>
+        </>
     )
 }
 

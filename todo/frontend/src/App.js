@@ -12,6 +12,7 @@ import axios from 'axios'
 import {BrowserRouter, Link, Redirect, Route, Switch} from "react-router-dom";
 import Cookies from "universal-cookie/lib";
 import NoteForm from "./components/NoteForm";
+import ProjectForm from "./components/ProjectForm";
 
 
 const API = 'http://127.0.0.1:8000/api/'
@@ -162,6 +163,27 @@ class App extends React.Component {
             })
     }
 
+    createProject(name, users, repo) {
+        const headers = this.getHeaders()
+        const data = {name: name, users: users, repo: repo}
+        // console.log('post', get_url(`projects/`), data, {headers})
+        axios
+            .post(get_url(`projects/`), data, {headers})
+            .then(response => {
+                //     let new_note = response.data
+                //     const project = this.state.projects.filter((item) => item.id === new_note.project)[0]
+                //     new_note.project = project
+                //     const user = this.state.users.filter((item) => item.id === new_note.user)[0]
+                //     new_note.user = user
+                //     this.setState({notes: [...this.state.notes, new_note]})
+                this.loadData()
+            })
+
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
 
     deleteNote(id) {
         const headers = this.getHeaders()
@@ -209,6 +231,11 @@ class App extends React.Component {
                     <Switch>
                         <Route exact path='/'>
                             <UsersTable users={this.state.users}/>
+                        </Route>
+                        <Route exact path='/projects/create'>
+                            <ProjectForm createProject={
+                                (name, users, repo) => this.createProject(name, users, repo)}
+                                      users={this.state.users}/>
                         </Route>
                         <Route exact path='/projects'>
                             <ProjectsTable projects={this.state.projects}
