@@ -216,7 +216,9 @@ class App extends React.Component {
                         </Route>
                         <Route exact path='/notes/create'>
                             <NoteForm createNote={
-                                (name, project, user, text) => this.createNote(name, project, user, text)}/>
+                                (name, project, user, text) => this.createNote(name, project, user, text)}
+                                      users={this.state.users}
+                                      projects={this.state.projects}/>
                         </Route>
 
                         <Route exact path='/notes'>

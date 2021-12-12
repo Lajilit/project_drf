@@ -6,8 +6,8 @@ class NoteForm extends React.Component {
         super(props)
         this.state = {
             name: '',
-            project: 0,
-            user: 0,
+            project: props.projects[0].id,
+            user: props.users[0].id,
             text: ''
         }
     }
@@ -37,14 +37,20 @@ class NoteForm extends React.Component {
                 <div className="form-group">
                     <label htmlFor="project">project</label>
 
-                    <input type="number" className="form-control" name="project" value={this.state.project}
-                           onChange={(event) => this.handleChange(event)}/>
+                    <select className="form-control"
+                            name="project"
+                            onChange={(event) => this.handleChange(event)}>
+                        {this.props.projects.map((project) => <option value={project.id}>{project.name}</option>)}
+                    </select>
                 </div>
                 <div className="form-group">
                     <label htmlFor="user">user</label>
 
-                    <input type="number" className="form-control" name="user" value={this.state.user}
-                           onChange={(event) => this.handleChange(event)}/>
+                    <select className="form-control"
+                            name="user"
+                            onChange={(event) => this.handleChange(event)}>
+                        {this.props.users.map((user) => <option value={user.id}>{user.username}</option>)}
+                    </select>
                 </div>
                 <div className="form-group">
                     <label htmlFor="text">text</label>
