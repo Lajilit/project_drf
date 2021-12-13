@@ -219,15 +219,17 @@ class App extends React.Component {
         return (
             <div className={'App'}>
                 <BrowserRouter>
+                    <div className={'login'}>{this.isAuthenticated() ?
+                            <MyButton onClick={() => this.logout()}>Logout</MyButton> :
+                            <LoginForm getToken={(username, password) => this.getToken(username, password)}/>}</div>
+
                     <nav className={'Menu'}>
                         <ul className={'MenuList'}>
                             <li className={'MenuItem'}><Link className={'linkText'} to='/'>Пользователи</Link></li>
                             <li className={'MenuItem'}><Link className={'linkText'} to='/projects'>Проекты</Link></li>
                             <li className={'MenuItem'}><Link className={'linkText'} to='/notes'>Заметки</Link></li>
                         </ul>
-                        {this.isAuthenticated() ?
-                            <MyButton onClick={() => this.logout()}>Logout</MyButton> :
-                            <LoginForm getToken={(username, password) => this.getToken(username, password)}/>}
+
 
                     </nav>
                     <Switch>

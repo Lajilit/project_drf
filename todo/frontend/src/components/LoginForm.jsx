@@ -1,5 +1,7 @@
 import React from 'react'
 import {Redirect} from "react-router-dom";
+import MyButton from "./UI/button/MyButton";
+import MyInput from "./UI/input/MyInput";
 
 
 class LoginForm extends React.Component {
@@ -28,24 +30,24 @@ class LoginForm extends React.Component {
 
     render() {
         return (
-            <>
-                <form onSubmit={
+            <div>
+                <form className={'loginForm'} onSubmit={
                     (event) => this.handleSubmit(event)
                 }>
-                    <input type="text" name="username" placeholder="login"
+                    <MyInput type="text" name="username" placeholder="login"
                         // value={this.state.username}
                            onChange={(event) =>
                                this.handleOnChange(event)
                            }/>
-                    <input type="password" name="password" placeholder="password"
+                    <MyInput type="password" name="password" placeholder="password"
                         // value={this.state.password}
                            onChange={(event) =>
                                this.handleOnChange(event)
                            }/>
-                    <input type="submit" value="Login"/>
+                    <MyButton>Login</MyButton>
                 </form>
                 {this.state.redirect ? (<Redirect push to="/users"/>) : null}
-            </>
+            </div>
         );
     }
 }

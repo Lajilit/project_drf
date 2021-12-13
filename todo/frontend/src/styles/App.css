@@ -16,20 +16,16 @@
 .item {
     display: flex;
     padding: 15px;
-    border: 2px solid darkorchid;
+    border: 2px solid darkblue;
     margin-top: 15px;
     justify-content: space-between;
     align-items: center;
 }
 
-.item__content {
-
-}
 
 .linkText {
     text-decoration: none;
-    color: darkorchid;
-
+    color: darkblue;
 }
 
 .Menu {
@@ -44,7 +40,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 75%;
+    width: 100%;
 }
 
 .MenuItem {
@@ -54,4 +50,15 @@
 
 .listItem {
     list-style-type: none;
+}
+
+.login {
+    display: flex;
+    justify-content: right;
+    width: 100%;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
 }
