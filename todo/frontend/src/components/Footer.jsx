@@ -2,8 +2,8 @@ import React from 'react'
 
 const Footer = () => {
     return (
-        <div>
-            Екатерина Вахрушева 2021
+        <div style={{alignItems: 'center', margin: '45px'}}>
+            <p style={{textAlign: 'center'}}><strong>Екатерина Вахрушева 2021</strong></p>
         </div>
     )
 }
