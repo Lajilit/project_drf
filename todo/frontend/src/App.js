@@ -1,17 +1,19 @@
 import React from 'react';
-import Footer from './components/Footer.js'
-import UsersTable from './components/Users.js'
-import ProjectsTable from "./components/Projects";
-import NotesTable from "./components/Notes";
-import ProjectPage from "./components/Project";
-import UserProjectsTable from "./components/UserProjects";
-import LoginForm from './components/Auth.js'
+import Footer from './components/Footer.jsx'
+import UserList from './components/UserList.jsx'
+import ProjectList from "./components/ProjectList.jsx";
+import NotesTable from "./components/NoteList.jsx";
+import ProjectPage from "./components/ProjectDetail.jsx";
+import UserProjectsTable from "./components/UserProjects.jsx";
+import LoginForm from './components/LoginForm.jsx'
+import '../src/styles/App.css'
 
 import axios from 'axios'
 import {BrowserRouter, Link, Redirect, Route, Switch} from "react-router-dom";
 import Cookies from "universal-cookie/lib";
-import NoteForm from "./components/NoteForm";
-import ProjectForm from "./components/ProjectForm";
+import NoteForm from "./components/NoteForm.jsx";
+import ProjectForm from "./components/ProjectForm.jsx";
+import MyButton from "./components/UI/button/MyButton";
 
 
 const API = 'http://127.0.0.1:8000/api/'
@@ -219,18 +221,18 @@ class App extends React.Component {
                 <BrowserRouter>
                     <nav className={'Menu'}>
                         <ul className={'MenuList'}>
-                            <li className={'MenuItem'}><Link to='/'>Пользователи</Link></li>
-                            <li className={'MenuItem'}><Link to='/projects'>Проекты</Link></li>
-                            <li className={'MenuItem'}><Link to='/notes'>Заметки</Link></li>
-                            <li className={'MenuItem'}>{this.isAuthenticated() ?
-                                <button onClick={() => this.logout()}>Logout</button> :
-                                <LoginForm getToken={(username, password) => this.getToken(username, password)}/>}
-                            </li>
+                            <li className={'MenuItem'}><Link className={'linkText'} to='/'>Пользователи</Link></li>
+                            <li className={'MenuItem'}><Link className={'linkText'} to='/projects'>Проекты</Link></li>
+                            <li className={'MenuItem'}><Link className={'linkText'} to='/notes'>Заметки</Link></li>
                         </ul>
+                        {this.isAuthenticated() ?
+                            <MyButton onClick={() => this.logout()}>Logout</MyButton> :
+                            <LoginForm getToken={(username, password) => this.getToken(username, password)}/>}
+
                     </nav>
                     <Switch>
                         <Route exact path='/'>
-                            <UsersTable users={this.state.users}/>
+                            <UserList users={this.state.users}/>
                         </Route>
                         <Route exact path='/projects/create'>
                             <ProjectForm createProject={
@@ -238,8 +240,9 @@ class App extends React.Component {
                                          users={this.state.users}/>
                         </Route>
                         <Route exact path='/projects'>
-                            <ProjectsTable projects={this.state.projects}
-                                           deleteProject={(id) => this.deleteProject(id)}/>
+                            <ProjectList projects={this.state.projects}
+                                         deleteProject={(id) => this.deleteProject(id)}
+                                         isAuthenticated={this.isAuthenticated()}/>
                         </Route>
                         <Route exact path='/notes/create'>
                             <NoteForm createNote={
@@ -250,7 +253,8 @@ class App extends React.Component {
 
                         <Route exact path='/notes'>
                             <NotesTable notes={this.state.notes}
-                                        deleteNote={(id) => this.deleteNote(id)}/>
+                                        deleteNote={(id) => this.deleteNote(id)}
+                             isAuthenticated={this.isAuthenticated()}/>
                         </Route>
                         <Route path='/project/:id'>
                             <ProjectPage getProject={(id) => this.getProject(id)}

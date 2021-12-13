@@ -11,30 +11,30 @@ const ProjectPage = ({getProject, project, notes}) => {
     let filtered_notes = notes.filter((note) => note.project.id === project.id)
     return (
         <div>
-            <h1>
+            <h1 style={{textAlign: 'center'}}>
                 Проект {project.name}
             </h1>
             <p>
-                <a href={project.repo}>Репозиторий проекта</a>
+                <a className={'linkText'} href={project.repo}>Репозиторий проекта</a>
             </p>
-            <h2>
+            <h2 style={{textAlign: 'center'}}>
                 Пользователи, подключенные к проекту
             </h2>
             <ol>
                 {projectUsers.map((user) =>
-                    <li key={`PPU${project.id}.${user.id}`}>
-                        <Link to={`/user/${user.id}`}>
+                    <li className={'listItem'} key={`${project.id}.${user.id}`}>
+                        <Link className={'linkText'} to={`/user/${user.id}`}>
                             {user.firstName} {user.lastName}
                         </Link>
                     </li>
                 )}
             </ol>
-            <h2>
+            <h2 style={{textAlign: 'center'}}>
                 Заметки проекта
             </h2>
             <ol>
                 {filtered_notes.map((note) =>
-                    <li key={`PPN${project.id}.${note.id}`}>
+                    <li className={'listItem'} key={`${project.id}.${note.id}`}>
                         {note.name}
                     </li>
                 )}
