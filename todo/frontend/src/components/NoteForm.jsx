@@ -1,5 +1,9 @@
 import React from 'react'
 import {Redirect} from "react-router-dom";
+import MyInput from "./UI/input/MyInput";
+import MySelect from "./UI/input/MySelect";
+import MyButton from "./UI/button/MyButton";
+import MyTextarea from "./UI/input/MyTextarea";
 
 
 class NoteForm extends React.Component {
@@ -7,8 +11,8 @@ class NoteForm extends React.Component {
         super(props)
         this.state = {
             name: '',
-            project: props.projects[0].id,
-            user: props.users[0].id,
+            project: 0,
+            user: 0,
             text: '',
             redirect: false
         }
@@ -35,38 +39,38 @@ class NoteForm extends React.Component {
             <>
                 <form onSubmit={(event) => this.handleSubmit(event)}>
                     <div className="form-group">
-                        <label htmlFor="name">name</label>
-                        <input type="text" className="form-control" name="name" value={this.state.name}
-                               onChange={(event) => this.handleChange(event)}/>
+                        <label htmlFor="name">Название заметки</label>
+                        <MyInput name="name"
+                                 value={this.state.name}
+                                 onChange={(event) => this.handleChange(event)}/>
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="project">project</label>
+                        <label htmlFor="project">Проект</label>
 
-                        <select className="form-control"
-                                name="project"
-                                onChange={(event) => this.handleChange(event)}>
-                            {this.props.projects.map((project) => <option key={project.id}
-                                                                          value={project.id}>{project.name}</option>)}
-                        </select>
+                        <MySelect name="project"
+                                  onChange={(event) => this.handleChange(event)}>
+                            {this.props.projects.map((project) =>
+                                <option key={project.id} value={project.id}>{project.name}</option>)}
+                        </MySelect>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="user">user</label>
+                        <label htmlFor="user">Пользователь</label>
 
-                        <select className="form-control"
-                                name="user"
-                                onChange={(event) => this.handleChange(event)}>
-                            {this.props.users.map((user) => <option key={user.id}
-                                                                    value={user.id}>{user.username}</option>)}
-                        </select>
+                        <MySelect name="user"
+                                  onChange={(event) => this.handleChange(event)}>
+                            {this.props.users.map((user) =>
+                                <option key={user.id} value={user.id}>{user.username}</option>)}
+                        </MySelect>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="text">text</label>
+                        <label htmlFor="text">Текст заметки</label>
 
-                        <input type="text" className="form-control" name="text" value={this.state.text}
-                               onChange={(event) => this.handleChange(event)}/>
+                        <MyTextarea name="text" rows="10" cols="45"
+                                    value={this.state.text}
+                                    onChange={(event) => this.handleChange(event)}/>
                     </div>
-                    <input type="submit" className="btn btn-primary" value="Save"/>
+                    <MyButton>Save new note</MyButton>
                 </form>
                 {this.state.redirect ? (<Redirect push to="/notes"/>) : null}
             </>
