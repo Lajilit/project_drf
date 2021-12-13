@@ -220,8 +220,8 @@ class App extends React.Component {
             <div className={'App'}>
                 <BrowserRouter>
                     <div className={'login'}>{this.isAuthenticated() ?
-                            <MyButton onClick={() => this.logout()}>Logout</MyButton> :
-                            <LoginForm getToken={(username, password) => this.getToken(username, password)}/>}</div>
+                        <MyButton onClick={() => this.logout()}>Logout</MyButton> :
+                        <LoginForm getToken={(username, password) => this.getToken(username, password)}/>}</div>
 
                     <nav className={'Menu'}>
                         <ul className={'MenuList'}>
@@ -256,12 +256,13 @@ class App extends React.Component {
                         <Route exact path='/notes'>
                             <NotesTable notes={this.state.notes}
                                         deleteNote={(id) => this.deleteNote(id)}
-                             isAuthenticated={this.isAuthenticated()}/>
+                                        isAuthenticated={this.isAuthenticated()}/>
                         </Route>
                         <Route path='/project/:id'>
                             <ProjectPage getProject={(id) => this.getProject(id)}
                                          project={this.state.project}
-                                         notes={this.state.notes}/>
+                                         notes={this.state.notes}
+                                         deleteNote={(id) => this.deleteNote(id)}/>
                         </Route>
                         <Route path='/user/:id'>
                             <UserProjectsTable getUser={(id) => this.getUser(id)}

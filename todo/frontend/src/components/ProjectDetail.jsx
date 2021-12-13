@@ -1,8 +1,10 @@
 import React from 'react'
 import {Link, useParams} from "react-router-dom";
+import UserItem from "./UserItem";
+import NoteItem from "./NoteItem";
 
 
-const ProjectPage = ({getProject, project, notes}) => {
+const ProjectPage = ({getProject, project, notes, deleteNote}) => {
     let {id} = useParams();
     if (!Object.keys(project).length || project.id !== +id) {
         getProject(id)
@@ -20,25 +22,15 @@ const ProjectPage = ({getProject, project, notes}) => {
             <h2 style={{textAlign: 'center'}}>
                 Пользователи, подключенные к проекту
             </h2>
-            <ol>
-                {projectUsers.map((user) =>
-                    <li className={'listItem'} key={`${project.id}.${user.id}`}>
-                        <Link className={'linkText'} to={`/user/${user.id}`}>
-                            {user.firstName} {user.lastName}
-                        </Link>
-                    </li>
-                )}
-            </ol>
+            <div>
+                {projectUsers.map((user) => <UserItem key={`${project.id}.${user.id}`} user={user}/>)}
+            </div>
             <h2 style={{textAlign: 'center'}}>
                 Заметки проекта
             </h2>
-            <ol>
-                {filtered_notes.map((note) =>
-                    <li className={'listItem'} key={`${project.id}.${note.id}`}>
-                        {note.name}
-                    </li>
-                )}
-            </ol>
+            <div>
+                {filtered_notes.map((note) => <NoteItem key={note.id} note={note} deleteNote={deleteNote}/>)}
+            </div>
         </div>
     )
 }
