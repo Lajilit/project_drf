@@ -14,6 +14,8 @@ import Cookies from "universal-cookie/lib";
 import NoteForm from "./components/NoteForm.jsx";
 import ProjectForm from "./components/ProjectForm.jsx";
 import MyButton from "./components/UI/button/MyButton";
+import MySelectSort from "./components/UI/select/MySelectSort";
+import MyInput from "./components/UI/input/MyInput";
 
 
 const API = 'http://127.0.0.1:8000/api/'
@@ -36,7 +38,9 @@ class App extends React.Component {
             'notes': [],
             'project': {},
             'user': {},
-            'token': ''
+            'token': '',
+            'selectedSort': '',
+            'searchQuery': ''
         }
     }
 
@@ -211,6 +215,13 @@ class App extends React.Component {
             })
     }
 
+    sortProjects(sort) {
+        this.setState({'selectedSort': sort});
+        this.setState({
+            'projects': [...this.state.projects].sort((a, b) => a[sort].localeCompare(b[sort]))
+        })
+    }
+
     componentDidMount() {
         this.getTokenFromStorage()
     }
@@ -226,7 +237,8 @@ class App extends React.Component {
                     <nav className={'Menu'}>
                         <ul className={'MenuList'}>
                             <li className={'MenuItem'}><Link className={'linkText'} to='/'>Пользователи</Link></li>
-                            <li className={'MenuItem'}><Link className={'linkText'} to='/projects'>Проекты</Link></li>
+                            <li className={'MenuItem'}><Link className={'linkText'} to='/projects'>Проекты</Link>
+                            </li>
                             <li className={'MenuItem'}><Link className={'linkText'} to='/notes'>Заметки</Link></li>
                         </ul>
 
@@ -242,6 +254,23 @@ class App extends React.Component {
                                          users={this.state.users}/>
                         </Route>
                         <Route exact path='/projects'>
+                            <hr style={{margin: '15px 0'}}/>
+                            <div>
+                                <MyInput
+                                    value={this.state.searchQuery}
+                                    onChange={(e) => this.setState({'searchQuery': e.target.value})}
+                                    placeholder='Поиск'/>
+
+                                <MySelectSort
+                                    value={this.state.selectedSort}
+                                    onChange={this.sortProjects.bind(this)}
+                                    defaultValue="Сортировка"
+                                    options={[
+                                        {value: 'name', name: 'По названию'},
+                                    ]
+                                    }
+                                />
+                            </div>
                             <ProjectList projects={this.state.projects}
                                          deleteProject={(id) => this.deleteProject(id)}
                                          isAuthenticated={this.isAuthenticated()}/>
