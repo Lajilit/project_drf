@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import Footer from './components/Footer.js'
 import UsersTable from './components/Users.js'
 import ProjectsTable from "./components/Projects";
