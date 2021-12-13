@@ -1,4 +1,5 @@
 import React from 'react'
+import {Redirect} from "react-router-dom";
 
 
 class LoginForm extends React.Component {
@@ -6,7 +7,8 @@ class LoginForm extends React.Component {
         super(props)
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            redirect: false
         }
     }
 
@@ -19,25 +21,31 @@ class LoginForm extends React.Component {
         // console.log(`${this.state.username} ${this.state.password}`)
         this.props.getToken(this.state.username, this.state.password)
         event.preventDefault()
+        this.setState({
+            redirect: true
+        })
     }
 
     render() {
         return (
-            <form onSubmit={
-                (event) => this.handleSubmit(event)
-            }>
-                <input type="text" name="username" placeholder="login"
-                    // value={this.state.username}
-                       onChange={(event) =>
-                           this.handleOnChange(event)
-                       }/>
-                <input type="password" name="password" placeholder="password"
-                    // value={this.state.password}
-                       onChange={(event) =>
-                           this.handleOnChange(event)
-                       }/>
-                <input type="submit" value="Login"/>
-            </form>
+            <>
+                <form onSubmit={
+                    (event) => this.handleSubmit(event)
+                }>
+                    <input type="text" name="username" placeholder="login"
+                        // value={this.state.username}
+                           onChange={(event) =>
+                               this.handleOnChange(event)
+                           }/>
+                    <input type="password" name="password" placeholder="password"
+                        // value={this.state.password}
+                           onChange={(event) =>
+                               this.handleOnChange(event)
+                           }/>
+                    <input type="submit" value="Login"/>
+                </form>
+                {this.state.redirect ? (<Redirect push to="/users"/>) : null}
+            </>
         );
     }
 }

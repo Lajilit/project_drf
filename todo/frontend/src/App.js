@@ -66,7 +66,8 @@ class App extends React.Component {
             })
             .then(response => {
                 this.setToken(response.data['token'])
-            }).catch(() => alert('Неверный логин или пароль'))
+            })
+            .catch(() => alert('Неверный логин или пароль'))
     }
 
     getHeaders() {
@@ -216,14 +217,14 @@ class App extends React.Component {
         return (
             <div className={'App'}>
                 <BrowserRouter>
-                    <nav>
-                        <ul>
-                            <li><Link to='/'>Пользователи</Link></li>
-                            <li><Link to='/projects'>Проекты</Link></li>
-                            <li><Link to='/notes'>Заметки</Link></li>
-                            <li>{this.isAuthenticated() ?
+                    <nav className={'Menu'}>
+                        <ul className={'MenuList'}>
+                            <li className={'MenuItem'}><Link to='/'>Пользователи</Link></li>
+                            <li className={'MenuItem'}><Link to='/projects'>Проекты</Link></li>
+                            <li className={'MenuItem'}><Link to='/notes'>Заметки</Link></li>
+                            <li className={'MenuItem'}>{this.isAuthenticated() ?
                                 <button onClick={() => this.logout()}>Logout</button> :
-                                <Link to='/login'>Login</Link>}
+                                <LoginForm getToken={(username, password) => this.getToken(username, password)}/>}
                             </li>
                         </ul>
                     </nav>
@@ -234,7 +235,7 @@ class App extends React.Component {
                         <Route exact path='/projects/create'>
                             <ProjectForm createProject={
                                 (name, users, repo) => this.createProject(name, users, repo)}
-                                      users={this.state.users}/>
+                                         users={this.state.users}/>
                         </Route>
                         <Route exact path='/projects'>
                             <ProjectsTable projects={this.state.projects}
@@ -261,9 +262,6 @@ class App extends React.Component {
                                                user={this.state.user}
                                                projects={this.state.projects}
                                                deleteProject={(id) => this.deleteProject(id)}/>
-                        </Route>
-                        <Route exact path='/login'>
-                            <LoginForm getToken={(username, password) => this.getToken(username, password)}/>
                         </Route>
                         <Redirect from='/users' to='/'/>
                         <Route component={NotFound404}/>
