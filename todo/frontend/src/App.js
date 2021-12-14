@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {useMemo} from 'react';
+import _ from 'lodash';
+import hash from 'object-hash';
 import Footer from './components/Footer.jsx'
 import UserList from './components/UserList.jsx'
 import ProjectList from "./components/ProjectList.jsx";
@@ -39,8 +41,9 @@ class App extends React.Component {
             'project': {},
             'user': {},
             'token': '',
-            'selectedSort': '',
-            'searchQuery': ''
+            'sort': 'id',
+            'searchQuery': '',
+            'ascending': 'true'
         }
     }
 
@@ -190,7 +193,6 @@ class App extends React.Component {
             })
     }
 
-
     deleteNote(id) {
         const headers = this.getHeaders()
         axios.delete(get_url(`notes/${id}/`), {headers})
@@ -215,18 +217,55 @@ class App extends React.Component {
             })
     }
 
-    sortProjects(sort) {
-        this.setState({'selectedSort': sort});
-        this.setState({
-            'projects': [...this.state.projects].sort((a, b) => a[sort].localeCompare(b[sort]))
-        })
+    selectSortMethod(sort) {
+        this.setState({'sort': sort});
+    }
+
+    selectAscendingMethod(ascending) {
+        if (ascending === 'true') {
+            this.setState({'ascending': true});
+        } else {
+            this.setState({'ascending': false});
+        }
     }
 
     componentDidMount() {
         this.getTokenFromStorage()
     }
 
+    sortByValue = (a, b, value, ascending) => (
+        ascending
+            ? a[value].localeCompare(b[value])
+            : b[value].localeCompare(a[value])
+    )
+
+    sortById = (a, b, id, ascending) => (
+        ascending
+            ? a[id] - b[id]
+            : b[id] - a[id]
+    )
+
+    getSortedProjects = _.memoize((projects, index, ascending) => {
+        console.log('works')
+        if (this.state.sort) {
+            if (this.state.sort === 'id') {
+                return [...projects].sort((a, b) => this.sortById(a, b, index, ascending))
+            }
+            return [...projects].sort((a, b) => this.sortByValue(a, b, index, ascending))
+        }
+        return this.state.projects;
+    }, (...args) => `${hash(this.state.projects)}_${args[1]}_${args[2]}`)
+
+
     render() {
+        let sortedProjects
+        sortedProjects = this.getSortedProjects(
+            this.state.projects,
+            this.state.sort,
+            this.state.ascending
+        )
+        let sort = this.selectSortMethod.bind(this)
+        let ascending = this.selectAscendingMethod.bind(this)
         return (
             <div className={'App'}>
                 <BrowserRouter>
@@ -259,21 +298,33 @@ class App extends React.Component {
                                 <MyInput
                                     value={this.state.searchQuery}
                                     onChange={(e) => this.setState({'searchQuery': e.target.value})}
-                                    placeholder='Поиск'/>
+                                    placeholder='Поиск...'/>
 
                                 <MySelectSort
-                                    value={this.state.selectedSort}
-                                    onChange={this.sortProjects.bind(this)}
+                                    value={this.state.sort}
+                                    onChange={sort}
                                     defaultValue="Сортировка"
                                     options={[
+                                        {value: 'id', name: 'В порядке добавления'},
                                         {value: 'name', name: 'По названию'},
                                     ]
                                     }
                                 />
+                                <MySelectSort
+                                    value={this.state.ascending}
+                                    onChange={ascending}
+                                    defaultValue="Порядок сортировки"
+                                    options={[
+                                        {value: 'true', name: 'А-я'},
+                                        {value: 'false', name: 'Я-а'},
+                                    ]
+                                    }
+                                />
                             </div>
-                            <ProjectList projects={this.state.projects}
-                                         deleteProject={(id) => this.deleteProject(id)}
-                                         isAuthenticated={this.isAuthenticated()}/>
+                            <ProjectList
+                                projects={sortedProjects}
+                                deleteProject={(id) => this.deleteProject(id)}
+                                isAuthenticated={this.isAuthenticated()}/>
                         </Route>
                         <Route exact path='/notes/create'>
                             <NoteForm createNote={
