@@ -262,6 +262,17 @@ class App extends React.Component {
     }, (...args) => `${hash(this.state.projects)}_${args[1]}_${args[2]}`)
 
 
+    getSortedAndSearchedProjects = _.memoize((projects) => {
+        if (this.state.searchQuery) {
+            console.log(projects.filter(project => project.name.toLowerCase().includes(this.state.searchQuery)))
+            console.log(this.state.searchQuery)
+            return projects.filter(project => project.name.toLowerCase().includes(this.state.searchQuery));
+        }
+        console.log(projects)
+        return projects;
+
+    }, () => `${hash(this.state.projects)}_${this.state.searchQuery}}`)
+
     render() {
         let sortedProjects
         sortedProjects = this.getSortedProjects(
@@ -269,6 +280,10 @@ class App extends React.Component {
             this.state.sort,
             this.state.ascending
         )
+        let sortedAndSearchedProjects
+        sortedAndSearchedProjects = this.getSortedAndSearchedProjects(sortedProjects)
+
+
         let sort = this.selectSortMethod.bind(this)
         let ascending = this.selectAscendingMethod.bind(this)
         return (
@@ -302,7 +317,7 @@ class App extends React.Component {
                             <div>
                                 <MyInput
                                     value={this.state.searchQuery}
-                                    onChange={(e) => this.setState({'searchQuery': e.target.value})}
+                                    onChange={(e) => this.setState({'searchQuery': e.target.value.toLowerCase()})}
                                     placeholder='Поиск...'/>
 
                                 <MySelectSort
@@ -327,7 +342,7 @@ class App extends React.Component {
                                 />
                             </div>
                             <ProjectList
-                                projects={sortedProjects}
+                                projects={sortedAndSearchedProjects}
                                 deleteProject={(id) => this.deleteProject(id)}
                                 isAuthenticated={this.isAuthenticated()}/>
                         </Route>
