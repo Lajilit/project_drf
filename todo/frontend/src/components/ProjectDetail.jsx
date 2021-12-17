@@ -1,10 +1,10 @@
 import React from 'react'
-import {Link, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import UserItem from "./UserItem";
 import NoteItem from "./NoteItem";
 
 
-const ProjectPage = ({getProject, project, notes, deleteNote}) => {
+const ProjectDetail = ({getProject, project, notes, deleteNote}) => {
     let {id} = useParams();
     if (!Object.keys(project).length || project.id !== +id) {
         getProject(id)
@@ -36,6 +36,6 @@ const ProjectPage = ({getProject, project, notes, deleteNote}) => {
 }
 
 
-export default ProjectPage
+export default ProjectDetail
 
 

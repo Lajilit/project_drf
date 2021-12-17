@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import ProjectItem from "./ProjectItem";
 
 
-const UserProjectsTable = ({getUser, user, projects, deleteProject}) => {
+const UserProjectList = ({getUser, user, projects, deleteProject}) => {
     let {id} = useParams();
     if (!Object.keys(user).length || user.id !== +id) {
         getUser(id)
@@ -27,4 +27,4 @@ const UserProjectsTable = ({getUser, user, projects, deleteProject}) => {
     )
 }
 
-export default UserProjectsTable
+export default UserProjectList

@@ -7,7 +7,7 @@ const ProjectItem = ({project, deleteProject}) => {
         <div className={'item'}>
             <div className="item__content">
                 <h2>
-                    Проект <Link className={'linkText'} to={`/project/${project.id}`}>{project.id} {project.name}</Link>
+                    Проект <Link className={'linkText'} to={`/project/${project.id}`}>{project.name}</Link>
                 </h2>
                 <div><a className={'linkText'} href={project.repo}>Репозиторий проекта</a></div>
                 <div>

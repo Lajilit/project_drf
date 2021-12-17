@@ -1,24 +1,27 @@
-import React, {useMemo} from 'react';
+import React from 'react';
+import axios from 'axios'
 import _ from 'lodash';
+import {BrowserRouter, Link, Redirect, Route, Switch} from "react-router-dom";
+import Cookies from "universal-cookie/lib";
 import hash from 'object-hash';
+
+import LoginForm from './components/LoginForm.jsx'
+import NoteForm from "./components/NoteForm.jsx";
+import ProjectForm from "./components/ProjectForm.jsx";
+
+
 import Footer from './components/Footer.jsx'
 import UserList from './components/UserList.jsx'
 import ProjectList from "./components/ProjectList.jsx";
-import NotesTable from "./components/NoteList.jsx";
-import ProjectPage from "./components/ProjectDetail.jsx";
-import UserProjectsTable from "./components/UserProjects.jsx";
-import LoginForm from './components/LoginForm.jsx'
-import '../src/styles/App.css'
+import NoteList from "./components/NoteList.jsx";
+import ProjectDetail from "./components/ProjectDetail.jsx";
+import UserProjectList from "./components/UserProjectList.jsx";
 
-import axios from 'axios'
-import {BrowserRouter, Link, Redirect, Route, Switch} from "react-router-dom";
-import Cookies from "universal-cookie/lib";
-import NoteForm from "./components/NoteForm.jsx";
-import ProjectForm from "./components/ProjectForm.jsx";
 import MyButton from "./components/UI/button/MyButton";
 import MySelectSort from "./components/UI/select/MySelectSort";
 import MyInput from "./components/UI/input/MyInput";
 
+import '../src/styles/App.css'
 
 const API = 'http://127.0.0.1:8000/api/'
 const get_url = (url_name) => `${API}${url_name}`
@@ -245,6 +248,8 @@ class App extends React.Component {
             : b[id] - a[id]
     )
 
+    // _.memoize - чтобы функция не вызывалась каждый раз при изменении любого состояния на странице,
+    // resolver - чтобы сохранялись дополнительные условия сортировки
     getSortedProjects = _.memoize((projects, index, ascending) => {
         console.log('works')
         if (this.state.sort) {
@@ -334,21 +339,21 @@ class App extends React.Component {
                         </Route>
 
                         <Route exact path='/notes'>
-                            <NotesTable notes={this.state.notes}
-                                        deleteNote={(id) => this.deleteNote(id)}
-                                        isAuthenticated={this.isAuthenticated()}/>
+                            <NoteList notes={this.state.notes}
+                                      deleteNote={(id) => this.deleteNote(id)}
+                                      isAuthenticated={this.isAuthenticated()}/>
                         </Route>
                         <Route path='/project/:id'>
-                            <ProjectPage getProject={(id) => this.getProject(id)}
-                                         project={this.state.project}
-                                         notes={this.state.notes}
-                                         deleteNote={(id) => this.deleteNote(id)}/>
+                            <ProjectDetail getProject={(id) => this.getProject(id)}
+                                           project={this.state.project}
+                                           notes={this.state.notes}
+                                           deleteNote={(id) => this.deleteNote(id)}/>
                         </Route>
                         <Route path='/user/:id'>
-                            <UserProjectsTable getUser={(id) => this.getUser(id)}
-                                               user={this.state.user}
-                                               projects={this.state.projects}
-                                               deleteProject={(id) => this.deleteProject(id)}/>
+                            <UserProjectList getUser={(id) => this.getUser(id)}
+                                             user={this.state.user}
+                                             projects={this.state.projects}
+                                             deleteProject={(id) => this.deleteProject(id)}/>
                         </Route>
                         <Redirect from='/users' to='/'/>
                         <Route component={NotFound404}/>

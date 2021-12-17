@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import MyButton from "./UI/button/MyButton";
 import NoteItem from "./NoteItem";
 
-const NotesTable = ({notes, deleteNote, isAuthenticated}) => {
+const NoteList = ({notes, deleteNote, isAuthenticated}) => {
     return (
         <div>
             <h1 style={{textAlign: 'center'}}>
@@ -24,4 +24,4 @@ const NotesTable = ({notes, deleteNote, isAuthenticated}) => {
 }
 
 
-export default NotesTable
+export default NoteList

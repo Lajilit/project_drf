@@ -1,7 +1,7 @@
 import React from 'react'
 import {Redirect} from "react-router-dom";
 import MyInput from "./UI/input/MyInput";
-import MySelect from "./UI/input/MySelect";
+import MySelect from "./UI/select/MySelect";
 import MyButton from "./UI/button/MyButton";
 import MyTextarea from "./UI/input/MyTextarea";
 
