@@ -18,10 +18,10 @@ import ProjectDetail from "./components/ProjectDetail.jsx";
 import UserProjectList from "./components/UserProjectList.jsx";
 
 import MyButton from "./components/UI/button/MyButton";
-import MySelectSort from "./components/UI/select/MySelectSort";
-import MyInput from "./components/UI/input/MyInput";
+
 
 import '../src/styles/App.css'
+import PostFilter from "./components/PostFilter";
 
 const API = 'http://127.0.0.1:8000/api/'
 const get_url = (url_name) => `${API}${url_name}`
@@ -44,9 +44,11 @@ class App extends React.Component {
             'project': {},
             'user': {},
             'token': '',
-            'sort': 'id',
-            'searchQuery': '',
-            'ascending': 'true'
+            'filter': {
+                'sort': 'id',
+                'query': '',
+                'ascending': true
+            }
         }
     }
 
@@ -220,16 +222,10 @@ class App extends React.Component {
             })
     }
 
-    selectSortMethod(sort) {
-        this.setState({'sort': sort});
-    }
-
-    selectAscendingMethod(ascending) {
-        if (ascending === 'true') {
-            this.setState({'ascending': true});
-        } else {
-            this.setState({'ascending': false});
-        }
+    setFilter(key, value) {
+        let filterToSet = this.state.filter
+        filterToSet[key] = value
+        this.setState({'filter': filterToSet})
     }
 
     componentDidMount() {
@@ -250,42 +246,30 @@ class App extends React.Component {
 
     // _.memoize - чтобы функция не вызывалась каждый раз при изменении любого состояния на странице,
     // resolver - чтобы сохранялись дополнительные условия сортировки
-    getSortedProjects = _.memoize((projects, index, ascending) => {
-        console.log('works')
-        if (this.state.sort) {
-            if (this.state.sort === 'id') {
-                return [...projects].sort((a, b) => this.sortById(a, b, index, ascending))
+    getSortedAndSearchedProjects = _.memoize((projects, index, ascending, query) => {
+        function searchByName(sortedProjects) {
+            return sortedProjects.filter(project => project.name.toLowerCase().includes(query));
+        }
+        if (index) {
+            if (index === 'id') {
+                return searchByName([...projects].sort((a, b) => this.sortById(a, b, index, ascending)));
             }
-            return [...projects].sort((a, b) => this.sortByValue(a, b, index, ascending))
+            return searchByName([...projects].sort((a, b) => this.sortByValue(a, b, index, ascending)));
         }
-        return this.state.projects;
-    }, (...args) => `${hash(this.state.projects)}_${args[1]}_${args[2]}`)
+        return searchByName(this.state.projects);
+    }, (...args) =>
+        `${hash(this.state.projects)}_${args[1]}_${args[2]}_${args[3]}`)
 
-
-    getSortedAndSearchedProjects = _.memoize((projects) => {
-        if (this.state.searchQuery) {
-            console.log(projects.filter(project => project.name.toLowerCase().includes(this.state.searchQuery)))
-            console.log(this.state.searchQuery)
-            return projects.filter(project => project.name.toLowerCase().includes(this.state.searchQuery));
-        }
-        console.log(projects)
-        return projects;
-
-    }, () => `${hash(this.state.projects)}_${this.state.searchQuery}}`)
 
     render() {
-        let sortedProjects
-        sortedProjects = this.getSortedProjects(
-            this.state.projects,
-            this.state.sort,
-            this.state.ascending
-        )
         let sortedAndSearchedProjects
-        sortedAndSearchedProjects = this.getSortedAndSearchedProjects(sortedProjects)
+        sortedAndSearchedProjects = this.getSortedAndSearchedProjects(
+            this.state.projects,
+            this.state.filter.sort,
+            this.state.filter.ascending,
+            this.state.filter.query
+        )
 
-
-        let sort = this.selectSortMethod.bind(this)
-        let ascending = this.selectAscendingMethod.bind(this)
         return (
             <div className={'App'}>
                 <BrowserRouter>
@@ -314,33 +298,11 @@ class App extends React.Component {
                         </Route>
                         <Route exact path='/projects'>
                             <hr style={{margin: '15px 0'}}/>
-                            <div>
-                                <MyInput
-                                    value={this.state.searchQuery}
-                                    onChange={(e) => this.setState({'searchQuery': e.target.value.toLowerCase()})}
-                                    placeholder='Поиск...'/>
+                            <PostFilter
+                                filter={this.state.filter}
+                                setFilter={(key, value) => this.setFilter(key, value)}/>
+                            <hr style={{margin: '15px 0'}}/>
 
-                                <MySelectSort
-                                    value={this.state.sort}
-                                    onChange={sort}
-                                    defaultValue="Сортировка"
-                                    options={[
-                                        {value: 'id', name: 'В порядке добавления'},
-                                        {value: 'name', name: 'По названию'},
-                                    ]
-                                    }
-                                />
-                                <MySelectSort
-                                    value={this.state.ascending}
-                                    onChange={ascending}
-                                    defaultValue="Порядок сортировки"
-                                    options={[
-                                        {value: 'true', name: 'А-я'},
-                                        {value: 'false', name: 'Я-а'},
-                                    ]
-                                    }
-                                />
-                            </div>
                             <ProjectList
                                 projects={sortedAndSearchedProjects}
                                 deleteProject={(id) => this.deleteProject(id)}

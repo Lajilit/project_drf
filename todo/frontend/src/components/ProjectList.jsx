@@ -5,7 +5,11 @@ import MyButton from "./UI/button/MyButton";
 
 
 const ProjectList = ({projects, deleteProject, isAuthenticated}) => {
-
+    if (!projects.length) {
+        return (
+            <h3 style={{textAlign: 'center'}}>Проекты не найдены</h3>
+        )
+    }
     return (
         <div>
             <h1 style={{textAlign: 'center'}}>
