@@ -1,5 +1,4 @@
 import React from 'react'
-import {Redirect} from "react-router-dom";
 import MyInput from "./UI/input/MyInput";
 import MySelect from "./UI/select/MySelect";
 import MyButton from "./UI/button/MyButton";
@@ -14,7 +13,6 @@ class NoteForm extends React.Component {
             project: 0,
             user: 0,
             text: '',
-            redirect: false
         }
     }
 
@@ -28,15 +26,13 @@ class NoteForm extends React.Component {
 
     handleSubmit(event) {
         this.props.createNote(this.state.name, this.state.project, this.state.user, this.state.text)
+        this.props.closeModal(false)
         event.preventDefault()
-        this.setState({
-            redirect: true
-        })
     }
 
     render() {
         return (
-            <>
+            <div>
                 <form onSubmit={(event) => this.handleSubmit(event)}>
                     <div className="form-group">
                         <label htmlFor="name">Название заметки</label>
@@ -72,8 +68,7 @@ class NoteForm extends React.Component {
                     </div>
                     <MyButton>Save new note</MyButton>
                 </form>
-                {this.state.redirect ? (<Redirect push to="/notes"/>) : null}
-            </>
+            </div>
         );
     }
 }

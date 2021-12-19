@@ -6,22 +6,16 @@ import Cookies from "universal-cookie/lib";
 import hash from 'object-hash';
 
 import LoginForm from './components/LoginForm.jsx'
-import NoteForm from "./components/NoteForm.jsx";
-import ProjectForm from "./components/ProjectForm.jsx";
-
-
 import Footer from './components/Footer.jsx'
 import UserList from './components/UserList.jsx'
 import ProjectList from "./components/ProjectList.jsx";
 import NoteList from "./components/NoteList.jsx";
 import ProjectDetail from "./components/ProjectDetail.jsx";
 import UserProjectList from "./components/UserProjectList.jsx";
-
 import MyButton from "./components/UI/button/MyButton";
 
-
 import '../src/styles/App.css'
-import ProjectFilter from "./components/PostFilter";
+
 
 const API = 'http://127.0.0.1:8000/api/'
 const get_url = (url_name) => `${API}${url_name}`
@@ -286,7 +280,8 @@ class App extends React.Component {
                     </nav>
                     <Switch>
                         <Route exact path='/'>
-                            <UserList users={this.state.users}/>
+                            <UserList users={this.state.users}
+                                      isAuthenticated={this.isAuthenticated()}/>
                         </Route>
                         <Route exact path='/projects'>
                             <ProjectList
@@ -294,22 +289,21 @@ class App extends React.Component {
                                 setFilter={(key, value) => this.setFilter(key, value)}
                                 projects={sortedAndSearchedProjects}
                                 createProject={
-                                    (name, users, repo) => this.createProject(name, users, repo)}
+                                    (name, users, repo) => this.createProject(name, users, repo)
+                                }
                                 deleteProject={(id) => this.deleteProject(id)}
                                 isAuthenticated={this.isAuthenticated()}
                                 users={this.state.users}/>
                         </Route>
-                        <Route exact path='/notes/create'>
-                            <NoteForm createNote={
-                                (name, project, user, text) => this.createNote(name, project, user, text)}
-                                      users={this.state.users}
-                                      projects={this.state.projects}/>
-                        </Route>
-
                         <Route exact path='/notes'>
                             <NoteList notes={this.state.notes}
+                                      createNote={
+                                          (name, project, user, text) => this.createNote(name, project, user, text)
+                                      }
                                       deleteNote={(id) => this.deleteNote(id)}
-                                      isAuthenticated={this.isAuthenticated()}/>
+                                      isAuthenticated={this.isAuthenticated()}
+                                      users={this.state.users}
+                                      projects={this.state.projects}/>
                         </Route>
                         <Route path='/project/:id'>
                             <ProjectDetail getProject={(id) => this.getProject(id)}
@@ -325,7 +319,6 @@ class App extends React.Component {
                         </Route>
                         <Redirect from='/users' to='/'/>
                         <Route component={NotFound404}/>
-
                     </Switch>
                 </BrowserRouter>
                 <Footer/>

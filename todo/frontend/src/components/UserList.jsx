@@ -1,7 +1,12 @@
 import React from 'react'
 import UserItem from "./UserItem";
 
-const UserList = ({users}) => {
+const UserList = ({users, isAuthenticated}) => {
+    if (!isAuthenticated) {
+        return (
+            <h3 style={{textAlign: 'center'}}>Для просмотра списка пользователей необходима авторизация</h3>
+        )
+    }
     return (
         <div>
             <h1 style={{textAlign: 'center'}}>

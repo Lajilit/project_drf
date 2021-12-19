@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import {Link} from "react-router-dom";
 import ProjectItem from "./ProjectItem";
 import MyButton from "./UI/button/MyButton";
 import MyModal from "./UI/modal/MyModal";

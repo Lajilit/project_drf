@@ -1,5 +1,4 @@
 import React from 'react'
-import {Redirect} from "react-router-dom";
 import MyInput from "./UI/input/MyInput";
 import MyButton from "./UI/button/MyButton";
 import MySelect from "./UI/select/MySelect";
