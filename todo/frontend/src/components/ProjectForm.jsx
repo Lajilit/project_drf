@@ -12,7 +12,6 @@ class ProjectForm extends React.Component {
             name: '',
             users: '',
             repo: '',
-            redirect: false
         }
     }
 
@@ -34,10 +33,8 @@ class ProjectForm extends React.Component {
 
     handleSubmit(event) {
         this.props.createProject(this.state.name, this.state.users, this.state.repo)
+        this.props.closeModal(false)
         event.preventDefault()
-        this.setState({
-            redirect: true
-        })
     }
 
     render() {
@@ -69,7 +66,6 @@ class ProjectForm extends React.Component {
                     </div>
                     <MyButton>Save new project</MyButton>
                 </form>
-                {this.state.redirect ? (<Redirect push to="/projects"/>) : null}
             </div>
         );
     }

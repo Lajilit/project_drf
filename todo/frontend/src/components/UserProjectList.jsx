@@ -16,7 +16,7 @@ const UserProjectList = ({getUser, user, projects, deleteProject}) => {
     })
     return (
         <div>
-            <h1>
+            <h1 style={{textAlign: 'center'}}>
                 Проекты пользователя {user.username}
             </h1>
 

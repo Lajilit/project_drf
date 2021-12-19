@@ -21,7 +21,7 @@ import MyButton from "./components/UI/button/MyButton";
 
 
 import '../src/styles/App.css'
-import PostFilter from "./components/PostFilter";
+import ProjectFilter from "./components/PostFilter";
 
 const API = 'http://127.0.0.1:8000/api/'
 const get_url = (url_name) => `${API}${url_name}`
@@ -163,13 +163,11 @@ class App extends React.Component {
         axios
             .post(get_url(`notes/`), data, {headers})
             .then(response => {
-                //     let new_note = response.data
-                //     const project = this.state.projects.filter((item) => item.id === new_note.project)[0]
-                //     new_note.project = project
-                //     const user = this.state.users.filter((item) => item.id === new_note.user)[0]
-                //     new_note.user = user
-                //     this.setState({notes: [...this.state.notes, new_note]})
-                this.loadData()
+                let new_note = response.data
+                new_note.project = this.state.projects.filter((item) => item.id === new_note.project)[0]
+                new_note.user = this.state.users.filter((item) => item.id === new_note.user)[0]
+                this.setState({notes: [...this.state.notes, new_note]})
+                // this.loadData()
             })
 
             .catch(error => {
@@ -184,26 +182,24 @@ class App extends React.Component {
         axios
             .post(get_url(`projects/`), data, {headers})
             .then(response => {
-                //     let new_note = response.data
-                //     const project = this.state.projects.filter((item) => item.id === new_note.project)[0]
-                //     new_note.project = project
-                //     const user = this.state.users.filter((item) => item.id === new_note.user)[0]
-                //     new_note.user = user
-                //     this.setState({notes: [...this.state.notes, new_note]})
-                this.loadData()
+                let new_project = response.data
+                new_project.users = new_project.users.map((id) => this.state.users.filter((user) => user.id === id)[0])
+                this.setState({projects: [...this.state.projects, new_project]})
+                // this.loadData()
             })
 
             .catch(error => {
                 console.log(error)
             })
+
     }
 
     deleteNote(id) {
         const headers = this.getHeaders()
         axios.delete(get_url(`notes/${id}/`), {headers})
             .then(response => {
-                // this.setState({notes: this.state.notes.filter((item) => item.id !== id)})
-                this.loadData()
+                this.setState({notes: this.state.notes.filter((item) => item.id !== id)})
+                // this.loadData()
             })
             .catch(error => {
                 console.log(error)
@@ -214,8 +210,8 @@ class App extends React.Component {
         const headers = this.getHeaders()
         axios.delete(get_url(`projects/${id}/`), {headers})
             .then(response => {
-                // this.setState({projects: this.state.projects.filter((item) => item.id !== id)})
-                this.loadData()
+                this.setState({projects: this.state.projects.filter((item) => item.id !== id)})
+                // this.loadData()
             })
             .catch(error => {
                 console.log(error)
@@ -250,6 +246,7 @@ class App extends React.Component {
         function searchByName(sortedProjects) {
             return sortedProjects.filter(project => project.name.toLowerCase().includes(query));
         }
+
         if (index) {
             if (index === 'id') {
                 return searchByName([...projects].sort((a, b) => this.sortById(a, b, index, ascending)));
@@ -291,22 +288,16 @@ class App extends React.Component {
                         <Route exact path='/'>
                             <UserList users={this.state.users}/>
                         </Route>
-                        <Route exact path='/projects/create'>
-                            <ProjectForm createProject={
-                                (name, users, repo) => this.createProject(name, users, repo)}
-                                         users={this.state.users}/>
-                        </Route>
                         <Route exact path='/projects'>
-                            <hr style={{margin: '15px 0'}}/>
-                            <PostFilter
-                                filter={this.state.filter}
-                                setFilter={(key, value) => this.setFilter(key, value)}/>
-                            <hr style={{margin: '15px 0'}}/>
-
                             <ProjectList
+                                filter={this.state.filter}
+                                setFilter={(key, value) => this.setFilter(key, value)}
                                 projects={sortedAndSearchedProjects}
+                                createProject={
+                                    (name, users, repo) => this.createProject(name, users, repo)}
                                 deleteProject={(id) => this.deleteProject(id)}
-                                isAuthenticated={this.isAuthenticated()}/>
+                                isAuthenticated={this.isAuthenticated()}
+                                users={this.state.users}/>
                         </Route>
                         <Route exact path='/notes/create'>
                             <NoteForm createNote={
