@@ -20,4 +20,5 @@ class Command(BaseCommand):
                 first_name=f'Firstname {first}',
                 last_name=f"Lastname {first}"
             )
+            print(f'Пользователь создан: {new_user.username}')
             first += 1

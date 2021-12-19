@@ -9,6 +9,6 @@ class Command(BaseCommand):
         super_user = CustomUser.objects.create_superuser('lajil',
                                                          'lajilit@gmail.com',
                                                          '12345',
-                                                         first_name=
-                                                         'Ekaterina',
+                                                         first_name='Ekaterina',
                                                          last_name='Vakhrusheva')
+        print(f'Суперпользователь создан: {super_user.username}')

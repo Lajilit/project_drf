@@ -11,7 +11,6 @@ class CustomUserCustomViewSet(ListModelMixin, RetrieveModelMixin,
     queryset = CustomUser.objects.all()
 
     def get_serializer_class(self):
-        if self.request.version == '0.2' :
+        if self.request.version == '0.2':
             return CustomUserModelStaffSerializer
         return CustomUserModelSerializer
-
