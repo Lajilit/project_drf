@@ -1,0 +1,64 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#root {
+    display: flex;
+    justify-content: center;
+}
+
+.App {
+    width: 800px;
+}
+
+.item {
+    display: flex;
+    padding: 15px;
+    border: 2px solid darkblue;
+    margin-top: 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.linkText {
+    text-decoration: none;
+    color: darkblue;
+}
+
+.Menu {
+    display: flex;
+    padding: 15px;
+    margin-top: 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.MenuList {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+.MenuItem {
+    font-size: 20px;
+    list-style-type: none;
+}
+
+.listItem {
+    list-style-type: none;
+}
+
+.login {
+    display: flex;
+    justify-content: right;
+    width: 100%;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+}
