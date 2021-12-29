@@ -1,4 +1,4 @@
-from random import sample
+from random import sample, choice
 
 from django.core.management.base import BaseCommand
 
@@ -22,14 +22,16 @@ class Command(BaseCommand):
             )
             project_number += 1
             all_users = [user.id for user in users]
-            new_project.users.set(sample(all_users, 3))
+            project_users = sample(all_users, 3)
+            new_project.users.set(project_users)
             new_project.save()
             print(f'Проект создан: {new_project.name}')
             for _ in range(10):
+                note_user = choice(project_users)
                 new_note = Note.objects.create(
                     name=f'Test note {note_number}',
                     text=f'Test note {note_number} text',
-                    user=new_project.users.first(),
+                    user=note_user,
                     project=new_project
                 )
                 print(f'Заметка создана: {new_note.name}')
