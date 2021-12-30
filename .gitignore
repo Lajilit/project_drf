@@ -1,4 +1,4 @@
 node_modules/
 .idea/
 __pycache__
-/todo/db.sqlite3
+db.sqlite3
