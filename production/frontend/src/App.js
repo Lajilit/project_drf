@@ -17,7 +17,7 @@ import MyButton from "./components/UI/button/MyButton";
 import '../src/styles/App.css'
 
 
-const API = 'http://127.0.0.1:8000/api/'
+const API = 'http://185.254.189.138:8000/api/'
 const get_url = (url_name) => `${API}${url_name}`
 const NotFound404 = ({location}) => {
     return (
